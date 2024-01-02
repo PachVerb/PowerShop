@@ -135,6 +135,7 @@ export default {
       this.userInfo.id
         ? this.navigateTo("/pages/mine/set/personMsg")
         : this.$options.filters.navigateToLogin();;
+	  // this.navigateTo("/pages/mine/set/personMsg")
     },
     async getUserOrderNum() {
       uni.stopPullDownRefresh();

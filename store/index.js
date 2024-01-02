@@ -15,6 +15,7 @@ const store = new Vuex.Store({
     userInfo: storage.getUserInfo(),
     uuid: storage.getUuid(),
     token: "",
+	roleinfo: storage.getRoleInfo()
   },
   mutations: {
     login(state, userInfo) {

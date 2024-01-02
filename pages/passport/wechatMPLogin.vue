@@ -41,6 +41,10 @@
 	import {
 		mpAutoLogin
 	} from "@/api/connect.js";
+	
+	import {
+		getUserRole
+	} from "@/api/user/index.js";
 
 	import {
 		whetherNavigate
@@ -50,6 +54,7 @@
 	} from "@/api/members";
 	import storage from "@/utils/storage.js";
 	import config from '@/config/config'
+import store from "../../store";
 	export default {
 		data() {
 			return {
@@ -147,13 +152,15 @@
               let code = this.code;
               let image = this.image;
               let nickName = this.nickName;
-              mpAutoLogin({
+			  let params = {
                 encryptedData,
                 iv,
                 code,
                 image,
                 nickName,
-              }).then((apiRes) => {
+              }
+			  console.log(params)
+              mpAutoLogin(params).then((apiRes) => {
                 storage.setAccessToken(apiRes.data.result.accessToken);
                 storage.setRefreshToken(apiRes.data.result.refreshToken);
                 // 登录成功
@@ -220,6 +227,13 @@
 			        delta: 1,
 			      });
 			    });
+				getUserRole().then(res => {
+					console.log('useRole---------------', res)
+					if(res.data && res.data.code == 200 && res.data.success) {
+						storage.setRoleInfo(res.data.result)
+					}
+				})
+				// 获取角色
 			  });
 			},
 

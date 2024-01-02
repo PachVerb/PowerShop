@@ -32,6 +32,7 @@ function cleanStorage() {
 	console.log("清空token");
 	storage.setUuid("");
 	storage.setUserInfo({});
+	storage.setRoleInfo({}) // 清空用户数据
 
 
 	if (!isNavigateTo) {

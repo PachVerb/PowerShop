@@ -134,4 +134,11 @@ export default {
   getImGoodsLink() {
   return  uni.getStorageSync('imGoodId');
   },
+  // 设置用户角色信息
+  setRoleInfo(val) {
+	  return uni.setStorageSync('ROLE', val)
+  },
+  getRoleInfo() {
+	  return uni.getStorageSync('ROLE')
+  }
 };

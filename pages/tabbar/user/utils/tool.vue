@@ -5,6 +5,12 @@
 
       <div class="paddingBox">
         <view class="interact-container">
+			
+			<!-- <view class="interact-item" @click="navigateTo('/pages/mine/address/addressManage')">
+			  <image src="/static/mine/myaddress.png" mode=""></image>
+			  <view>我的钱包</view>
+			</view> -->
+			
 			<view class="interact-item" @click="navigateTo('/pages/mine/address/addressManage')">
 			  <image src="/static/mine/myaddress.png" mode=""></image>
 			  <view>地址管理</view>
@@ -101,7 +107,12 @@
             <image src="/static/mine/setting.png" mode=""></image>
             <view>设置</view>
           </view>
-        
+		
+		<!-- 邀请好友 -->
+		 <view class="interact-item" @click="navigateTo('/pages/share/invite/share')">
+		    <image src="/static/mine/kanjia.png" mode=""></image>
+		    <view>邀请好友</view>
+		  </view>
 		  
         </view>
       </div>
@@ -132,7 +143,8 @@ export default {
       const ignores = [
 				'/pages/mine/set/setUp',
 				'/pages/mine/set/editionIntro',
-				'/pages/mine/set/feedBack'
+				'/pages/mine/set/feedBack',
+				'/pages/share/invite/share'
 			]
 			if (!ignores.includes(url)) {
 				if (this.$options.filters.tipsToLogin('normal')) {

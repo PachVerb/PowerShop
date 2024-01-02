@@ -12,10 +12,15 @@ const dev = {
   // im: "http://192.168.0.113:8885",
 };
 // 生产环境
+// const prod = {
+//   im: "https://im-api.pickmall.cn",
+//   common: "https://common-api.pickmall.cn",
+//   buyer: "https://buyer-api.pickmall.cn",
+// };
 const prod = {
-  im: "https://im-api.pickmall.cn",
-  common: "https://common-api.pickmall.cn",
-  buyer: "https://buyer-api.pickmall.cn",
+  im: "http://43.137.15.72:8888",
+  common: "http://43.137.15.72:8888",
+  buyer: "http://43.137.15.72:8888",
 };
 
 //默认生产环境

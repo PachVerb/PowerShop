@@ -798,6 +798,22 @@
 					}
 				}
 			]
+		},
+		{
+			"root": "pages/share",
+			"pages": [
+				{
+					"path": "invite/share",
+					"style": {
+						"navigationBarTitleText": "邀请好友"
+					}
+				},{
+					"path": "join",
+					"style": {
+						"navigationStyle": "custom"
+					}
+				}
+			]
 		}
 	],
 	"globalStyle": {
