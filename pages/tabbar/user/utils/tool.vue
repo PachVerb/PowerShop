@@ -109,12 +109,12 @@
           </view>
 		
 		<!-- 邀请好友 -->
-		 <view class="interact-item" @click="navigateTo('/pages/share/invite/share')">
+		 <view class="interact-item" @click="navigateTo('/pages/share/invite/share')" v-if="$store.state.roleinfo && ($store.state.roleinfo.sellerRoleId == 1 || $store.state.roleinfo.sellerRoleId == 2 || $store.state.roleinfo.sellerRoleId == 3)">
 		    <image src="/static/mine/kanjia.png" mode=""></image>
 		    <view>邀请好友</view>
 		  </view>
 		  
-		  <view class="interact-item" @click="navigateTo('/pages/share/cheer')">
+		  <view class="interact-item" @click="navigateTo('/pages/share/cheer')" v-if="$store.state.roleinfo && $store.state.roleinfo.sellerRoleId == -1">
 		     <image src="/static/mine/kanjia.png" mode=""></image>
 		     <view>合作加盟</view>
 		   </view>
@@ -137,7 +137,11 @@ export default {
 	  storage
 	  }
   },
-	
+  mounted() {
+	  
+	  	console.log(this.$store.state.roleinfo, 'roleinfo============')
+	  
+  },
   methods: {
   	handleNavigate(url) {
 			uni.navigateTo({
