@@ -114,6 +114,11 @@
 		    <view>邀请好友</view>
 		  </view>
 		  
+		  <view class="interact-item" @click="navigateTo('/pages/share/cheer')">
+		     <image src="/static/mine/kanjia.png" mode=""></image>
+		     <view>合作加盟</view>
+		   </view>
+		  
         </view>
       </div>
     </view>

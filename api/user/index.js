@@ -36,6 +36,6 @@ export function setRole(params) {
     url: `members/sharecode/setShareCode`,
     method: Method.POST,
 	needToken: true,
-    params,
+	params,
   });
 }

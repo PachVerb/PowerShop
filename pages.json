@@ -812,6 +812,12 @@
 					"style": {
 						"navigationStyle": "custom"
 					}
+				},
+				{
+					"path": "cheer",
+					"style": {
+						"navigationBarTitleText": "合作加盟"
+					}
 				}
 			]
 		}

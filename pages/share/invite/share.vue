@@ -12,14 +12,6 @@
 				<u-button type="primary" @click="copyText">复制</u-button>
 			</div>
 		</div>
-		
-		<div class="menu-box">
-			
-			<div class="menu-item" v-for="(item,index) in menus" :key="index" @click="() => naviage(item)">
-				<u-icon :name="item.icon"></u-icon>
-				<p>{{item.title}}</p>
-			</div>
-		</div>
 	</div>
 </template>
 
@@ -66,8 +58,8 @@
 				try{
 					const res = await getShareCode()
 					console.log('sharecode============', res)
-					if(res.data && res.data.success && res.data.code == 200) {
-						this.copyContent = res.data.result
+					if(res.data && res.data.success && res.data.code == 200 && res.data.result && res.data.result) {
+						this.copyContent = res.data.result.share_code
 					}
 				}catch(e){
 					//TODO handle the exception
@@ -144,30 +136,5 @@
 		z-index: -1;
 	}
 	
-	.menu-box {
-		position: absolute;
-		top: 170%;
-		width: 85%;
-		min-height: 200rpx;
-		border-radius: 20rpx;
-		background-color: #fff;
-		padding: 20rpx;
-		display: flex;
-		align-items: center;
-		text-align: center;
-		justify-content: center;
-		/* flex-direction: column; */
-		box-shadow: 0 0 16rpx -8rpx #555;
-	}
-	.menu-box .menu-item {
-		display:flex;
-		justify-content: center;
-		align-items: center;
-		padding: 12rpx;
-	}
-	.menu-box .menu-item .title {
-		font-size: 32rpx;
-		color: #555;
-		font-weight: bold;
-	}
+	
 </style>
