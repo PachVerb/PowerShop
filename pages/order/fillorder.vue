@@ -374,15 +374,17 @@
           >积分</span
         >
       </div>
-      <div class="navRiv" @click="createTradeFun()">
-        <!-- #ifndef MP-WEIXIN -->
+      <div class="navRiv" @click="handlePay()">
+        <!-- 非微信平台 -->
+		<!-- #ifndef MP-WEIXIN -->
         <div class="tabbar-right">提交订单</div>
         <!-- #endif -->
         <!-- #ifdef MP-WEIXIN -->
-        <div class="tabbar-right">微信支付</div>
+        <div class="tabbar-right">立即支付</div>
         <!-- #endif -->
       </div>
     </div>
+	<pay-tool :pshow="pshow" @checkMethod="handleMethod" />
   </div>
 </template>
 <script>
@@ -445,6 +447,7 @@ export default {
       notSupportFreight: [], //不支持运费
       notSupportFreightGoodsList: ["以下商品超出配送范围："],
       storeAddress: "",
+	  pshow: false
     };
   },
   watch: {
@@ -531,6 +534,35 @@ export default {
   mounted() {},
 
   methods: {
+	handlePay() {
+		
+		if (this.shippingText === "SELF_PICK_UP") {
+			if (!this.storeAddress.id) {
+			  uni.showToast({
+				title: "请选择提货点",
+				duration: 2000,
+				icon: "none",
+			  });
+			  return false;
+			}
+		} else if (this.shippingText === "LOGISTICS" && this.orderMessage.cartTypeEnum != 'VIRTUAL') {
+			if (!this.address.id) {
+			  uni.showToast({
+				title: "请选择地址",
+				duration: 2000,
+				icon: "none",
+			  });
+			  return false;
+			}
+		}
+		this.pshow = true;
+	},
+	handleMethod(type) {
+		if(type == 'weixin') {
+			createTradeFun()
+		}
+		  
+	},
     //发票回调 选择发票之后刷新购物车
     async callbackInvoice(val) {
       this.invoiceFlag = false;
@@ -642,25 +674,25 @@ export default {
     createTradeFun() {
       // 防抖
       this.$u.throttle(() => {
-        if (this.shippingText === "SELF_PICK_UP") {
-          if (!this.storeAddress.id) {
-            uni.showToast({
-              title: "请选择提货点",
-              duration: 2000,
-              icon: "none",
-            });
-            return false;
-          }
-        } else if (this.shippingText === "LOGISTICS" && this.orderMessage.cartTypeEnum != 'VIRTUAL') {
-          if (!this.address.id) {
-            uni.showToast({
-              title: "请选择地址",
-              duration: 2000,
-              icon: "none",
-            });
-            return false;
-          }
-        }
+        // if (this.shippingText === "SELF_PICK_UP") {
+        //   if (!this.storeAddress.id) {
+        //     uni.showToast({
+        //       title: "请选择提货点",
+        //       duration: 2000,
+        //       icon: "none",
+        //     });
+        //     return false;
+        //   }
+        // } else if (this.shippingText === "LOGISTICS" && this.orderMessage.cartTypeEnum != 'VIRTUAL') {
+        //   if (!this.address.id) {
+        //     uni.showToast({
+        //       title: "请选择地址",
+        //       duration: 2000,
+        //       icon: "none",
+        //     });
+        //     return false;
+        //   }
+        // }
 
         //  创建订单
         let client;

@@ -25,6 +25,10 @@
               <u-icon class="method_icon" name="zhifubao-circle-fill" color="#008ffa" size="80"></u-icon>
               <span class="method_name">支付宝</span>
             </div>
+			<div v-if="item == 'DAI'">
+			  <u-icon class="method_icon" name="zhifubao-circle-fill" color="#008ffa" size="80"></u-icon>
+			  <span class="method_name">好友代付</span>
+			</div>
             <div v-if="item == 'WECHAT'">
               <u-icon class="method_icon" name="weixin-circle-fill" color="#00c98b" size="80"></u-icon>
               <span class="method_name">微信</span>
@@ -40,6 +44,8 @@
         </u-row>
       </div>
     </div>
+	
+
   </div>
 </template>
 <script>
@@ -53,7 +59,7 @@
 				//收银台参数
 				cashierParams: "",
 				//支付方式集合
-				payList: "",
+				payList: [],
 				//支付sn
 				sn: "",
 				//订单类型
@@ -70,6 +76,7 @@
 				walletValue: 0.0,
 				// 支付倒计时
 				autoCancel: 0,
+				
 			
 			};
 		},
@@ -205,6 +212,7 @@
 						
 					}
 				});
+				this.payList.push("DAI")
 			},
 
 
@@ -213,6 +221,8 @@
 					this.pay(payment)
 				}, 2000)
 			},
+			
+			
 
 			//订单支付
 			async pay(payment) {
