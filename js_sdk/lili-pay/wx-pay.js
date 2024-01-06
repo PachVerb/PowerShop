@@ -28,6 +28,7 @@ class LiLiWXPay {
       const paymentClient = "MP";
       // 调用支付
       initiatePay(paymentMethod, paymentClient, submitData).then((res) => {
+		  console.log('pay============', response)
         let response = res.data.result;
         uni.hideLoading();
         uni.requestPayment({
