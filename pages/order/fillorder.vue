@@ -216,7 +216,9 @@
             {{
               shippingMethod.find((e) => {
                 return e.value == shippingText;
-              }).label
+              }) ? shippingMethod.find((e) => {
+                return e.value == shippingText;
+              }).label : ''
             }}
           </u-col>
         </u-row>
@@ -374,17 +376,27 @@
           >积分</span
         >
       </div>
-      <div class="navRiv" @click="handlePay()">
+      <div class="navRiv right-btn-wrap">
         <!-- 非微信平台 -->
 		<!-- #ifndef MP-WEIXIN -->
+		
         <div class="tabbar-right">提交订单</div>
         <!-- #endif -->
         <!-- #ifdef MP-WEIXIN -->
-        <div class="tabbar-right">立即支付</div>
+		<!-- <div class="right-btn-wrap">
+			<div class="tabbar-right">好友代付</div>
+			
+			<div class="tabbar-right" @click="() => createTradeFun()">立即支付</div>
+		</div> -->
+		<!-- <div class="tabbar-right">好友代付</div
+		
+		<div class="tabbar-right" @click="() => createTradeFun()">立即支付</div> -->
+		<button type="default" @click="() => inviteCreateTrade()" class="tabbar-right">好友付款</button>
+		<button type="default" class="tabbar-right" @click="() => createTradeFun()">立即支付</button>
         <!-- #endif -->
       </div>
     </div>
-	<pay-tool :pshow="pshow" @checkMethod="handleMethod" />
+	<!-- <paytool :pshow="pshow" @checkMethod="handleMethod" /> -->
   </div>
 </template>
 <script>
@@ -395,12 +407,14 @@ import invoices from "@/pages/order/invoice/setInvoice";
 import { mapState } from "vuex";
 import LiLiWXPay from "@/js_sdk/lili-pay/wx-pay.js";
 import configs from "@/config/config";
+import paytool from '@/components/pay-tool/paytool.vue'
 export default {
   onLoad: function (val) {
     this.routerVal = val;
   },
   components: {
     invoices,
+	paytool
   },
 
   data() {
@@ -447,8 +461,8 @@ export default {
       notSupportFreight: [], //不支持运费
       notSupportFreightGoodsList: ["以下商品超出配送范围："],
       storeAddress: "",
-	  pshow: false
-    };
+	  pshow: true
+     };
   },
   watch: {
     // 监听备注 并在 vuex 中存储
@@ -535,7 +549,7 @@ export default {
 
   methods: {
 	handlePay() {
-		
+		console.log('pay==========')
 		if (this.shippingText === "SELF_PICK_UP") {
 			if (!this.storeAddress.id) {
 			  uni.showToast({
@@ -558,10 +572,10 @@ export default {
 		this.pshow = true;
 	},
 	handleMethod(type) {
-		if(type == 'weixin') {
-			createTradeFun()
-		}
-		  
+		// if(type == 'weixin') {
+		// 	createTradeFun()
+		// }
+		  this.createTradeFun()
 	},
     //发票回调 选择发票之后刷新购物车
     async callbackInvoice(val) {
@@ -669,30 +683,34 @@ export default {
     /**
      * 提交订单准备支付
      */
-
+	
+	// 邀请付款好友
+	inviteCreateTrade() {
+		this.createTradeFun(true)
+	},
     // 创建订单
-    createTradeFun() {
+    createTradeFun(isInVite=false) {
       // 防抖
       this.$u.throttle(() => {
-        // if (this.shippingText === "SELF_PICK_UP") {
-        //   if (!this.storeAddress.id) {
-        //     uni.showToast({
-        //       title: "请选择提货点",
-        //       duration: 2000,
-        //       icon: "none",
-        //     });
-        //     return false;
-        //   }
-        // } else if (this.shippingText === "LOGISTICS" && this.orderMessage.cartTypeEnum != 'VIRTUAL') {
-        //   if (!this.address.id) {
-        //     uni.showToast({
-        //       title: "请选择地址",
-        //       duration: 2000,
-        //       icon: "none",
-        //     });
-        //     return false;
-        //   }
-        // }
+        if (this.shippingText === "SELF_PICK_UP") {
+          if (!this.storeAddress.id) {
+            uni.showToast({
+              title: "请选择提货点",
+              duration: 2000,
+              icon: "none",
+            });
+            return false;
+          }
+        } else if (this.shippingText === "LOGISTICS" && this.orderMessage.cartTypeEnum != 'VIRTUAL') {
+          if (!this.address.id) {
+            uni.showToast({
+              title: "请选择地址",
+              duration: 2000,
+              icon: "none",
+            });
+            return false;
+          }
+        }
 
         //  创建订单
         let client;
@@ -727,12 +745,17 @@ export default {
               duration: 2000,
               icon: "none",
             });
+			
             // 如果当前价格为0跳转到订单列表
             if (this.orderMessage.priceDetailDTO.billPrice == 0) {
               uni.navigateTo({
                 url: "/pages/order/myOrder?status=0",
               });
             } else {
+			  uni.reLaunch({
+				  url: `/pages/product/share?sn=${res.data.result.sn}&orderNo=${res.data.result.orderTSn}`
+			  })
+			  if(isInVite) return false // 是否邀请
               // #ifdef MP-WEIXIN
               // 微信小程序中点击创建订单直接开始支付
               this.pay(res.data.result.sn);
@@ -1057,7 +1080,8 @@ page {
   padding: 0 44rpx;
   text-align: center;
   border-radius: 400px;
-  margin-right: 32rpx;
+  margin-right: 16rpx;
+  font-size: 32rpx;
 }
 
 .sp_tag {
@@ -1222,5 +1246,9 @@ page {
 
 .goods-item {
   margin: 20rpx 0;
+}
+.right-btn-wrap {
+	display: flex;
+	// flex-direction: column;
 }
 </style>

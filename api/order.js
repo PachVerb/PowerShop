@@ -70,6 +70,14 @@ export function getOrderDetail(orderSn) {
   });
 }
 
+export function getOrderCDetail(orderSn) {
+  return http.request({
+    url: `/order/order/byTradeSn/${orderSn}`,
+    method: Method.GET,
+    needToken: true,
+  });
+}
+
 /**
  * 取消订单
  * @param orderSn 订单编号
