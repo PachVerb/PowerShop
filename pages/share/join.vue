@@ -32,12 +32,13 @@
 				form: {
 					shareCode: ''
 				},
-				
+				closeType: ''
 			}
 		},
 		onLoad(query) {
 			console.log(query)
 			this.title = query.type != 'tuan' ? '注册达人' : '注册团长'
+			this.closeType = query.type
 		},
 		onReady() {
 			this.$refs.uForm.setRules(this.rules);
@@ -48,7 +49,15 @@
 					if (valid) {
 						setRole(this.form).then(res => {
 							if(res.data.code ==200 && res.data.success) {
-								
+								uni.showToast({
+									title: this.title,
+									icon:'success',
+									complete() {
+										uni.redirectTo({
+											url: `/pages/share/cheer?type=${this.closeType}`
+										});
+									}
+								})
 							}
 						})
 					} else {

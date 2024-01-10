@@ -31,6 +31,13 @@
 				]
 			}
 		},
+		onLoad(query) {
+			const {type} = query
+			// 注册成功，关闭当前入口
+			if(type) {
+				this.menus = this.menus.filter(d => d.type != type)
+			}
+		},
 		methods:{
 			naviage(item) {
 				uni.navigateTo({

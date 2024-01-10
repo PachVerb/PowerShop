@@ -23,9 +23,9 @@ const dev = {
 //   buyer: "http://192.168.31.213:8888",
 // };
 const prod = {
-  im: "http://43.137.15.72:8888",
-  common: "http://43.137.15.72:8888",
-  buyer: "http://43.137.15.72:8888",
+  im: "https://wwww.fzsnkj.cn",
+  common: "https://wwww.fzsnkj.cn",
+  buyer: "https://wwww.fzsnkj.cn",
 };
 
 //默认生产环境
