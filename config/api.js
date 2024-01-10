@@ -17,6 +17,11 @@ const dev = {
 //   common: "https://common-api.pickmall.cn",
 //   buyer: "https://buyer-api.pickmall.cn",
 // };
+// const prod = {
+//   im: "http://192.168.31.213:8888",
+//   common: "http://192.168.31.213:8888",
+//   buyer: "http://192.168.31.213:8888",
+// };
 const prod = {
   im: "http://43.137.15.72:8888",
   common: "http://43.137.15.72:8888",

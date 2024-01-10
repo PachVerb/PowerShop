@@ -463,6 +463,18 @@
 							// #endif
 						}
 					}
+				},
+				{ // 分享
+					"path": "share",
+					"style": {
+						"navigationBarTitleText": "石能科技"
+					}
+				},
+				{ // 分享
+					"path": "toShare",
+					"style": {
+						"navigationBarTitleText": "付款详情"
+					}
 				}
 
 			]

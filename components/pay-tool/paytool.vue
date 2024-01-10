@@ -1,7 +1,10 @@
 <template>
-	<u-popup v-model="show" mode="bottom" border-radius="14">
+	<!-- <div>
+		购物拉拉
+	</div> -->
+	<u-popup v-model="pshow" mode="left" height="60%" border-radius="14">
 		<u-cell-group>
-			<u-cell-item v-for="(item, idx) for payM" :key="idx" :icon="item.icon" title="个人设置" @click="() => handleClick(item.type)"></u-cell-item>
+			<u-cell-item v-for="(item, idx) in payM" :key="idx" :icon="item.icon" :title="item.method" @click="() => handleClick(item.type)"></u-cell-item>
 		</u-cell-group>
 	</u-popup>
 </template>
@@ -12,7 +15,7 @@
 			pshow: {
 				type: Boolean,
 				default() {
-					return false
+					return true
 				}
 			}
 		},
