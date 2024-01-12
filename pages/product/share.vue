@@ -1,27 +1,27 @@
 <template>
-	<view class="page">
+	<view class="page" :class="{finish: orderDetail.order.payStatus=='PAID' }">
 		<u-navbar title="石能科技" :is-back="false"></u-navbar>
 		
 		<!-- 用户信息 -->
-		<view class="user-info-wrap">
+		<view class="user-info-wrap" v-if="orderDetail.order.payStatus=='UNPAID'">
 			<u-avatar class="avater" src="http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg"></u-avatar>
 			<text class="title-tips">代付订单已创建成功, 发给好友帮你付款吧~</text>
 		</view>
 		
 		
-		<view class="orderCard">
+		<view class="orderCard" v-if="orderDetail.order.payStatus=='UNPAID'">
 			<view class="order-price">
 				代付金额<br/>
 				<text class="dot">￥</text>
 				<text class="price">{{price}}</text>
 				</view>
 			
-			<!-- 分享 -->
+
 			<button class="share-btn" type="primary" open-type="share">发送给微信好友</button>
 			
 			<view class="devider"></view>
 			
-			<!-- 订单信息 -->
+
 			<view class="order-info" v-if="orderGoodsList.length">
 				<view class="order-item" v-for="(item, idx) in orderGoodsList" :key="idx">
 					 <image class="order-image" mode="aspectFit" :src="item.image"></image>
@@ -43,6 +43,8 @@
 			<u-empty v-else text="暂无订单数据" mode="data"></u-empty>
 			
 		</view>
+		
+		
 	</view>
 </template>
 
@@ -52,7 +54,7 @@
 		data() {
 			return {
 				sn: '',
-				price:'0',
+				price:'00.00',
 				orderGoodsList: [],
 				orderDetail: {},
 				order: '',
@@ -64,14 +66,14 @@
 			const {orderNo, sn, price} = query
 			this.orderNo = 'T202401071743712269931384832' || sn 
 			this.sn = 'T202401071743712269931384832' || sn
-			this.price = price
+			this.price = price || '00.00'
 		},
 		onShareAppMessage() {
 			return {
 				title: 'admin',
 				path: `/pages/product/toShare?sn=${this.sn}&price=${this.price}&order=${this.orderNo}`,
-				imageUrl:'https://v1.uviewui.com/common/logo.png',
-				desc: '邀请你付款'
+				// imageUrl:'https://v1.uviewui.com/common/logo.png',
+				// desc: '邀请你付款'
 			}
 		},
 		methods: {
@@ -174,5 +176,11 @@
 	justify-content: space-between;
 	margin-top: 16rpx;
 	color: red;
+}
+.finish {
+	background-color: #fff !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 </style>

@@ -1,13 +1,13 @@
 <template>
-	<view class="page">
+	<view class="page" :class="{finish: orderDetail.order.payStatus=='PAID' }">
 		<!-- 用户信息 -->
-		<view class="user-info-wrap">
+		<view class="user-info-wrap" v-if="orderDetail.order.payStatus=='PAID'">
 			<u-avatar class="avater" src="http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg"></u-avatar>
 			<text class="title-tips">hi, 你和我只有一步距离~</text>
 		</view>
 		
 		
-		<view class="orderCard">
+		<view class="orderCard" v-if="orderDetail.order.payStatus=='PAID'">
 			<view class="order-price">
 				代付金额<br/>
 				<text class="dot">￥</text>
@@ -41,6 +41,8 @@
 			<u-empty v-else text="暂无订单数据" mode="data"></u-empty>
 			
 		</view>
+		
+		<u-empty text="订单已完成" mode="order" v-if="orderDetail.order.payStatus=='PAID'"></u-empty>
 	</view>
 </template>
 
@@ -51,20 +53,8 @@
 		data() {
 			return {
 				sn: '',
-				price:'256.00',
-				orderGoodsList: [{
-					goodsName: 'icon的大小，单位rpx，如果src为图片路径，此参数可以设置图片的尺寸',
-					goodsPrice: '23423412',
-					subTotal: '2342341'
-				},{
-					goodsName: 'icon的大小，单位rpx，如果src为图片路径，此参数可以设置图片的尺寸',
-					goodsPrice: '12234234',
-					subTotal: '234234'
-				},{
-					goodsName: 'icon的大小，单位rpx，如果src为图片路径，此参数可以设置图片的尺寸',
-					goodsPrice: '12234234',
-					subTotal: '1234234'
-				}],
+				price:'00.00',
+				orderGoodsList: [],
 				orderDetail: {},
 				order: '',
 				orderNo: '',
@@ -76,7 +66,7 @@
 			const {sn, price, order} = query
 			this.sn = sn
 			this.orderNo=order
-			this.price = price
+			this.price = price || '00.00'
 		},
 		methods: {
 			loadData(sn) {
@@ -185,5 +175,12 @@
 	justify-content: space-between;
 	margin-top: 16rpx;
 	color: red;
+}
+
+.finish {
+	background-color: #fff !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 </style>
