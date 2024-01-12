@@ -360,7 +360,7 @@
             $options.filters.goodsFormatPrice(
               orderMessage.priceDetailDTO.flowPrice
             )[0]
-          }}</span>
+          }}</span>                        
           <span
             >.{{
               $options.filters.goodsFormatPrice(
@@ -752,10 +752,16 @@ export default {
                 url: "/pages/order/myOrder?status=0",
               });
             } else {
-			  uni.reLaunch({
-				  url: `/pages/product/share?sn=${res.data.result.sn}&orderNo=${res.data.result.orderTSn}`
-			  })
-			  if(isInVite) return false // 是否邀请
+				// debugger
+			  if(isInVite) {
+				 uni.navigateTo({
+				 	url: `/pages/product/share?sn=${res.data.result.sn}&orderNo=${res.data.result.orderTSn}&price=${this.$options.filters.goodsFormatPrice(
+              this.orderMessage.priceDetailDTO.flowPrice
+            )[0]}`
+				 }) 
+				 return false // 是否邀请
+			  }
+			 
               // #ifdef MP-WEIXIN
               // 微信小程序中点击创建订单直接开始支付
               this.pay(res.data.result.sn);

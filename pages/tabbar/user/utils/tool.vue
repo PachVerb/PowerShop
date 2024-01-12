@@ -109,17 +109,17 @@
           </view>
 		
 		<!-- 邀请好友 -->
-		 <view class="interact-item" @click="navigateTo('/pages/share/invite/share')" v-if="$store.state.roleinfo && ($store.state.roleinfo.sellerRoleId == 1 || $store.state.roleinfo.sellerRoleId == 2 || $store.state.roleinfo.sellerRoleId == 3)">
+		 <view class="interact-item" @click="navigateTo('/pages/share/invite/share')" v-if="roleinfo && (roleinfo.sellerRoleId == 1 || roleinfo.sellerRoleId == 2 || roleinfo.sellerRoleId == 3)">
 		    <image src="/static/mine/kanjia.png" mode=""></image>
 		    <view>邀请好友</view>
 		  </view>
 		  
-		  <view class="interact-item" @click="navigateTo('/pages/share/cheer')" v-if="$store.state.roleinfo && $store.state.roleinfo.sellerRoleId == -1">
+		  <view class="interact-item" @click="navigateTo('/pages/share/join')" v-if="roleinfo && roleinfo.sellerRoleId == -1">
 		     <image src="/static/mine/kanjia.png" mode=""></image>
 		     <view>合作加盟</view>
 		   </view>
 		   
-		   <view class="interact-item" @click="navigateTo('/pages/share/cheer')">
+		  <!-- <view class="interact-item" @click="navigateTo('/pages/share/cheer')">
 		      <image src="/static/mine/kanjia.png" mode=""></image>
 		      <view>合作加盟</view>
 		    </view>
@@ -127,7 +127,7 @@
 		   <view class="interact-item" @click="navigateTo('/pages/share/invite/share')">
 		      <image src="/static/mine/kanjia.png" mode=""></image>
 		      <view>邀请好友</view>
-		    </view>
+		    </view> -->
 		  
         </view>
       </div>
@@ -140,6 +140,9 @@ import { distribution } from "@/api/goods";
 import configs from "@/config/config";
 import storage from "@/utils/storage";
 
+import store from '@/store'
+
+
 export default {
   data() {
 	return {
@@ -147,10 +150,10 @@ export default {
 	  storage
 	  }
   },
-  mounted() {
-	  
-	  	console.log(this.$store.state.roleinfo, 'roleinfo============')
-	  
+  computed: {
+	roleinfo() {
+		return store.state.roleinfo
+	}  
   },
   methods: {
   	handleNavigate(url) {
@@ -163,7 +166,6 @@ export default {
 				'/pages/mine/set/setUp',
 				'/pages/mine/set/editionIntro',
 				'/pages/mine/set/feedBack',
-				'/pages/share/invite/share'
 			]
 			if (!ignores.includes(url)) {
 				if (this.$options.filters.tipsToLogin('normal')) {

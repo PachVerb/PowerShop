@@ -1,5 +1,7 @@
 <template>
 	<view class="page">
+		<u-navbar title="石能科技" :is-back="false"></u-navbar>
+		
 		<!-- 用户信息 -->
 		<view class="user-info-wrap">
 			<u-avatar class="avater" src="http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg"></u-avatar>
@@ -50,20 +52,8 @@
 		data() {
 			return {
 				sn: '',
-				price:'256.00',
-				orderGoodsList: [{
-					goodsName: 'icon的大小，单位rpx，如果src为图片路径，此参数可以设置图片的尺寸',
-					goodsPrice: '23423412',
-					subTotal: '2342341'
-				},{
-					goodsName: 'icon的大小，单位rpx，如果src为图片路径，此参数可以设置图片的尺寸',
-					goodsPrice: '12234234',
-					subTotal: '234234'
-				},{
-					goodsName: 'icon的大小，单位rpx，如果src为图片路径，此参数可以设置图片的尺寸',
-					goodsPrice: '12234234',
-					subTotal: '1234234'
-				}],
+				price:'0',
+				orderGoodsList: [],
 				orderDetail: {},
 				order: '',
 				orderNo: ''
@@ -71,9 +61,10 @@
 		},
 		onLoad(query) {
 			console.log('query==========',query)
-			const {orderNo, sn} = query
+			const {orderNo, sn, price} = query
 			this.orderNo = 'T202401071743712269931384832' || sn 
 			this.sn = 'T202401071743712269931384832' || sn
+			this.price = price
 		},
 		onShareAppMessage() {
 			return {

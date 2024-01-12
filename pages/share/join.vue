@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar back-text="返回" :title="title"></u-navbar>
+		<u-navbar back-text="返回" :title="'加盟'"></u-navbar>
 		<view class="content">
 			<u-form :model="form" ref="uForm">
 				<u-form-item label="邀请码" prop="shareCode">
@@ -19,7 +19,6 @@
 	export default {
 		data() {
 			return {
-				title: '',
 				rules: {
 					shareCode: [
 						{
@@ -32,13 +31,7 @@
 				form: {
 					shareCode: ''
 				},
-				closeType: ''
 			}
-		},
-		onLoad(query) {
-			console.log(query)
-			this.title = query.type != 'tuan' ? '注册达人' : '注册团长'
-			this.closeType = query.type
 		},
 		onReady() {
 			this.$refs.uForm.setRules(this.rules);
@@ -50,11 +43,11 @@
 						setRole(this.form).then(res => {
 							if(res.data.code ==200 && res.data.success) {
 								uni.showToast({
-									title: this.title,
+									title: '注册成功',
 									icon:'success',
 									complete() {
-										uni.redirectTo({
-											url: `/pages/share/cheer?type=${this.closeType}`
+										uni.navigateBack({
+											delta:1
 										});
 									}
 								})

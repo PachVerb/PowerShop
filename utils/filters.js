@@ -353,6 +353,7 @@ export function quiteLoginOut () {
         storage.setAccessToken("");
         storage.setRefreshToken("");
         storage.setUserInfo({});
+		storage.setRoleInfo({})
         navigateToLogin("redirectTo");
         await logout();
       }

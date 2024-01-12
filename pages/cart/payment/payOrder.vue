@@ -33,10 +33,10 @@
               <u-icon class="method_icon" name="weixin-circle-fill" color="#00c98b" size="80"></u-icon>
               <span class="method_name">微信</span>
             </div>
-            <div v-if="item == 'WALLET'">
+           <!-- <div v-if="item == 'WALLET'">
               <u-icon class="method_icon" name="red-packet-fill" color="#dd6161" size="80"></u-icon>
               <span class="method_name">余额支付(当前余额：¥{{ walletValue | unitPrice }})</span>
-            </div>
+            </div> -->
           </div>
           <div class="col3" @click="awaitPay(item)" textAlign="right">
             <u-icon size="26" color="#b1b1b1" name="arrow-right"></u-icon>

@@ -79,6 +79,10 @@ import tool from "@/pages/tabbar/user/utils/tool.vue";
 import { getCouponsNum, getFootprintNum } from "@/api/members.js";
 import { getUserWallet } from "@/api/members";
 import configs from '@/config/config'
+
+import { getUserRole } from "@/api/user/index.js";
+import storage from "@/utils/storage.js";
+
 export default {
   components: {
     tool,
@@ -101,6 +105,12 @@ export default {
     this.userInfo = this.$options.filters.isLogin() || {};
     if (this.$options.filters.isLogin("auth")) {
       this.getUserOrderNum();
+	  // 登录后每次刷新角色信息
+	  getUserRole().then(res => {
+	  	if(res.data && res.data.code == 200 && res.data.success) {
+	  		storage.setRoleInfo(res.data.result)
+	  	}
+	  })
     } else {
       this.walletNum = 0;
       this.couponNum = 0;

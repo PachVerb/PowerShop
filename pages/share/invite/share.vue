@@ -1,6 +1,6 @@
 <template>
 	<div class="share-box">
-		<image style="width: 100%;" src="/static/share/bg.png" mode="aspectFill"></image>
+		<!-- <image style="width: 100%;" src="/static/share/bg.png" mode="aspectFill"></image> -->
 		
 		<div class="shadow-box"></div>
 		
@@ -83,13 +83,14 @@
 		background-repeat: no-repeat;
 		background-position: center; */
 		position: relative;
-		display: flex;
-		justify-content: center;
+		height: 100vh;
 	}
 	.code-box {
 		position: absolute;
-		top: 90%;
+		top: 50%;
+		left:50%;
 		width: 85%;
+		transform: translate(-50%, -50%);
 		min-height: 200rpx;
 		border-radius: 40rpx;
 		background-color: #fff;
@@ -128,9 +129,10 @@
 	}
 	.shadow-box {
 		position: absolute;
-		top: 40%;
-		width: 100%;
-		height: 200px;
+		top:0;
+		left: 0;
+		width:100%;
+		height: 100%;
 		background-color: #e0e9fe;
 		box-shadow: 0px 20rpx 20rpx -8rpx #e0e9fe;
 		z-index: -1;

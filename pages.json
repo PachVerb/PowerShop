@@ -467,7 +467,7 @@
 				{ // 分享
 					"path": "share",
 					"style": {
-						"navigationBarTitleText": "石能科技"
+						"navigationStyle": "custom" // 隐藏系统导航栏
 					}
 				},
 				{ // 分享
