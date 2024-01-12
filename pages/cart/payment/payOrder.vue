@@ -21,10 +21,10 @@
       <div class="payItem" v-for="(item, index) in payList" :key="index">
         <u-row class="row">
           <div class="col1" @click="awaitPay(item, index)" size="100" style="text-align:left;">
-            <div v-if="item == 'ALIPAY'">
+           <!-- <div v-if="item == 'ALIPAY'">
               <u-icon class="method_icon" name="zhifubao-circle-fill" color="#008ffa" size="80"></u-icon>
               <span class="method_name">支付宝</span>
-            </div>
+            </div> -->
 			<div v-if="item == 'DAI'">
 			  <u-icon class="method_icon" name="zhifubao-circle-fill" color="#008ffa" size="80"></u-icon>
 			  <span class="method_name">好友代付</span>
@@ -167,38 +167,23 @@
 					this.payList = res.data.result.support.filter((item) => {
 						return item != "ALIPAY";
 					});
+					this.payList = res.data.result.support.filter((item) => {
+						return item != "WALLET";
+					})
 					// #endif
 
 					
 				  if(this.routerVal.recharge_sn){
-						this.payList = res.data.result.support.filter((item) => {
-						return item != "WALLET";
-					})
+						// this.payList = res.data.result.support.filter((item) => {
+						// return item != "WALLET";
+					// })
 					}
 					 else{
-						this.payList = res.data.result.support;
+						// this.payList = res.data.result.support;
 					}
-					// #ifdef H5
-					//判断是否微信浏览器
-					var ua = window.navigator.userAgent.toLowerCase();
-					if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+					this.payList.push("DAI")
 					
-						this.payList = res.data.result.support.filter((item) => {
-							return item != "ALIPAY";
-						});
-						// 充值的话仅保留微信支付
-						if(this.orderType == "RECHARGE"){
-							this.payList = res.data.result.support.filter((item) => {
-								return item == "WECHAT";
-							});
-						}
-						
-					}
-					// #endif
 					
-				
-					
-
 					this.walletValue = res.data.result.walletValue;
 					this.autoCancel =
 						(res.data.result.autoCancel - new Date().getTime()) / 1000;
@@ -211,12 +196,14 @@
 						},500)
 						
 					}
+					
 				});
-				this.payList.push("DAI")
+				
 			},
 
 
 			awaitPay(payment){
+				
 				this.$u.throttle(()=>{
 					this.pay(payment)
 				}, 2000)
@@ -226,7 +213,12 @@
 
 			//订单支付
 			async pay(payment) {
-				
+				if(payment == 'DAI') {
+					uni.redirectTo({
+						url: `/pages/product/share?sn=${this.cashierParams.orderSns}&orderNo=${this.cashierParams.orderSns}&price=${this.cashierParams.price}`
+					})
+					return false
+				}
 				// 支付编号
 				const sn = this.sn;
 				// 交易类型【交易号|订单号】
