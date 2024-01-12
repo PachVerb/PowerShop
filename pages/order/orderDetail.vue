@@ -403,7 +403,7 @@ export default {
     toPay(val) {
       val.sn
         ? uni.navigateTo({
-          url: "/pages/cart/payment/payOrder?order_sn=" + val.sn,
+          url: `/pages/cart/payment/payOrder?order_sn=${val.sn}&ordersn=${this.orderDetail.order.tradeSn}`,
         })
         : false;
     }, //删除订单

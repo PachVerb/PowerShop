@@ -85,9 +85,8 @@
 			  });
 			},
 			pay(sn) {
-				console.log(this.sn, this.price)
 			  new LiLiWXPay({
-				sn: this.sn,
+				sn: this.orderNo,
 				price: this.price,
 			  }).pay();
 			}

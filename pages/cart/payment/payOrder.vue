@@ -76,7 +76,7 @@
 				walletValue: 0.0,
 				// 支付倒计时
 				autoCancel: 0,
-				
+				ordersn: ''
 			
 			};
 		},
@@ -99,7 +99,7 @@
 			this.paymentClient = this.isWeiXin() ? "JSAPI" : "H5";
 			//#endif
 
-
+			this.ordersn = val.ordersn
 
 			// 
 		},
@@ -215,7 +215,7 @@
 			async pay(payment) {
 				if(payment == 'DAI') {
 					uni.redirectTo({
-						url: `/pages/product/share?sn=${this.cashierParams.orderSns}&orderNo=${this.cashierParams.orderSns}&price=${this.cashierParams.price}`
+						url: `/pages/product/share?sn=${this.cashierParams.orderSns}&orderNo=${this.cashierParams.orderSns}&price=${this.cashierParams.price}isDay=${true}&order=${this.ordersn}`
 					})
 					return false
 				}

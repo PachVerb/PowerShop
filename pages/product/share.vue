@@ -64,8 +64,8 @@
 		onLoad(query) {
 			console.log('query==========',query)
 			const {orderNo, sn, price} = query
-			this.orderNo = 'T202401071743712269931384832' || sn 
-			this.sn = 'T202401071743712269931384832' || sn
+			query.order ? (this.orderNo = query.order || '') : (this.orderNo = sn || '')
+			this.sn =  sn || ''
 			this.price = price || '00.00'
 			
 			this.loadData(this.orderNo)
@@ -76,6 +76,11 @@
 				path: `/pages/product/toShare?sn=${this.sn}&price=${this.price}&order=${this.orderNo}`,
 				// imageUrl:'https://v1.uviewui.com/common/logo.png',
 				// desc: '邀请你付款'
+				complete(){
+					uni.switchTab({
+						url: '/pages/tabbar/home/index'
+					})
+				}
 			}
 		},
 		methods: {
