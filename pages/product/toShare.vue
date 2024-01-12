@@ -1,13 +1,14 @@
 <template>
-	<view class="page" :class="{finish: orderDetail.order.payStatus=='PAID' }">
+	<view class="page" :class="{finish:  orderDetail.order && orderDetail.order.payStatus=='PAID' }">
+		<u-navbar title="石能科技" :is-back="false"></u-navbar>
 		<!-- 用户信息 -->
-		<view class="user-info-wrap" v-if="orderDetail.order.payStatus=='PAID'">
+		<view class="user-info-wrap" v-if=" orderDetail.order && orderDetail.order.payStatus=='UNPAID'">
 			<u-avatar class="avater" src="http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg"></u-avatar>
 			<text class="title-tips">hi, 你和我只有一步距离~</text>
 		</view>
 		
 		
-		<view class="orderCard" v-if="orderDetail.order.payStatus=='PAID'">
+		<view class="orderCard" v-if=" orderDetail.order && orderDetail.order.payStatus=='UNPAID'">
 			<view class="order-price">
 				代付金额<br/>
 				<text class="dot">￥</text>
@@ -20,7 +21,7 @@
 			<view class="devider"></view>
 			
 			<!-- 订单信息 -->
-			<view class="order-info" v-if="orderGoodsList.length">
+			<view class="order-info" v-if=" orderDetail.order && orderGoodsList.length">
 				<view class="order-item" v-for="(item, idx) in orderGoodsList" :key="idx">
 					 <image class="order-image" mode="aspectFit" :src="item.image"></image>
 					<view class="order-desc">
@@ -42,7 +43,7 @@
 			
 		</view>
 		
-		<u-empty text="订单已完成" mode="order" v-if="orderDetail.order.payStatus=='PAID'"></u-empty>
+		<u-empty text="订单已完成" mode="order" v-if=" orderDetail.order && orderDetail.order.payStatus=='PAID'"></u-empty>
 	</view>
 </template>
 
@@ -67,6 +68,8 @@
 			this.sn = sn
 			this.orderNo=order
 			this.price = price || '00.00'
+			
+			this.loadData(this.orderNo)
 		},
 		methods: {
 			loadData(sn) {
@@ -77,7 +80,7 @@
 			    const order = res.data.result;
 			    this.order = order.order;
 			    this.orderGoodsList = order.orderItems;
-			    this.orderDetail = res.data.result;
+			    this.orderDetail = res.data.result || {};
 			     if (this.$store.state.isShowToast){ uni.hideLoading() };
 			  });
 			},
@@ -90,7 +93,7 @@
 			}
 		},
 		mounted() {
-			this.loadData(this.orderNo)
+			// this.loadData(this.orderNo)
 		}
 	}
 </script>

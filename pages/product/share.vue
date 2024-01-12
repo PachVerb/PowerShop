@@ -1,15 +1,15 @@
 <template>
-	<view class="page" :class="{finish: orderDetail.order.payStatus=='PAID' }">
-		<u-navbar title="石能科技" :is-back="false"></u-navbar>
+	<view class="page" :class="{finish: orderDetail.order && orderDetail.order.payStatus=='PAID' }">
+		
 		
 		<!-- 用户信息 -->
-		<view class="user-info-wrap" v-if="orderDetail.order.payStatus=='UNPAID'">
+		<view class="user-info-wrap" v-if=" orderDetail.order && orderDetail.order.payStatus=='UNPAID'">
 			<u-avatar class="avater" src="http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg"></u-avatar>
 			<text class="title-tips">代付订单已创建成功, 发给好友帮你付款吧~</text>
 		</view>
 		
 		
-		<view class="orderCard" v-if="orderDetail.order.payStatus=='UNPAID'">
+		<view class="orderCard" v-if=" orderDetail.order && orderDetail.order.payStatus=='UNPAID'">
 			<view class="order-price">
 				代付金额<br/>
 				<text class="dot">￥</text>
@@ -44,7 +44,7 @@
 			
 		</view>
 		
-		
+		<u-empty text="订单已完成" mode="order" v-if=" orderDetail.order && orderDetail.order.payStatus=='PAID'"></u-empty>
 	</view>
 </template>
 
@@ -67,6 +67,8 @@
 			this.orderNo = 'T202401071743712269931384832' || sn 
 			this.sn = 'T202401071743712269931384832' || sn
 			this.price = price || '00.00'
+			
+			this.loadData(this.orderNo)
 		},
 		onShareAppMessage() {
 			return {
@@ -85,7 +87,7 @@
 			    const order = res.data.result;
 			    this.order = order.order;
 			    this.orderGoodsList = order.orderItems;
-			    this.orderDetail = res.data.result;
+			    this.orderDetail = res.data.result || {};
 			     if (this.$store.state.isShowToast){ uni.hideLoading() };
 			  });
 			},

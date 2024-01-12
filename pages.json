@@ -467,13 +467,15 @@
 				{ // 分享
 					"path": "share",
 					"style": {
-						"navigationStyle": "custom" // 隐藏系统导航栏
+						// "navigationStyle": "custom" ,// 隐藏系统导航栏
+						"navigationBarTitleText": "邀请付款"
 					}
 				},
 				{ // 分享
 					"path": "toShare",
 					"style": {
-						"navigationBarTitleText": "付款详情"
+						// "navigationBarTitleText": "付款详情"
+						"navigationStyle": "custom" // 隐藏系统导航栏
 					}
 				}
 
