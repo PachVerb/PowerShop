@@ -6,7 +6,7 @@
       <div class="money">￥{{walletNum | unitPrice }}</div>
       <div class="operation-btns">
         <div class="operation-btn light" @click="navigateTo('/pages/mine/deposit/withdrawal')">提现</div>
-        <div class="operation-btn" @click="navigateTo('/pages/mine/deposit/recharge')">充值</div>
+        <!-- <div class="operation-btn" @click="navigateTo('/pages/mine/deposit/recharge')">充值</div> -->
       </div>
     </div>
     <div class="box list" @click="navigateTo('/pages/mine/deposit/index')">
