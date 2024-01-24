@@ -67,5 +67,13 @@ export function getStoreList(params) {
   });
 }
 
+// 获取店铺列表
+export function getCStoreList(params) {
+  return http.request({
+    url: `/store/store/searchList?key=${params.keyword}`,
+    method: Method.GET,
+  });
+}
+
 
 

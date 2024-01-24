@@ -198,22 +198,22 @@ export default {
       legalPhotoFileList: [],
       licencePhotoFileList: [],
       form: {
-        companyName: "",
+        companyName: "好物",
         companyAddressIdPath: [],
-        companyAddressPath: "",
-        companyAddress: "",
-        employeeNum: "",
-        registeredCapital: "",
-        linkName: "",
-        linkPhone: "",
-        companyPhone: "",
-        companyEmail: "",
-        licenseNum: "",
+        companyAddressPath: "北京",
+        companyAddress: "北京",
+        employeeNum: "10000",
+        registeredCapital: "1000",
+        linkName: "张三",
+        linkPhone: "13512341234",
+        companyPhone: "13512341234",
+        companyEmail: "123@qq.com",
+        licenseNum: "123213123",
         scope: "",
         legalPhoto: "",
         licencePhoto: "",
-        legalName: "",
-        legalId: "",
+        legalName: "张三",
+        legalId: "534123134212381234",
       },
       list: [
         {
@@ -224,12 +224,12 @@ export default {
       ],
       rules: {
         // 验证规则
-        companyName: [{ required: true, message: "请填写公司信息" }],
-        companyAddressPath: [{ required: true, message: "请选择公司所在地" }],
-        companyAddress: [{ required: true, message: "请填写公司详细地址" }],
-        employeeNum: [{ required: true, message: "请填写公司员工总数" }],
-        registeredCapital: [{ required: true, message: "请填写公司注册资金" }],
-        linkName: [{ required: true, message: "请填写联系人姓名" }],
+        companyName: [{ required: false, message: "请填写公司信息" }],
+        companyAddressPath: [{ required: false, message: "请选择公司所在地" }],
+        companyAddress: [{ required: false, message: "请填写公司详细地址" }],
+        employeeNum: [{ required: false, message: "请填写公司员工总数" }],
+        registeredCapital: [{ required: false, message: "请填写公司注册资金" }],
+        linkName: [{ required: false, message: "请填写联系人姓名" }],
         linkPhone: [
           { required: true, message: "请填写联系人电话" },
           {
@@ -259,7 +259,7 @@ export default {
           },
         ],
         companyEmail: [
-          { required: true, message: "请填写电子邮箱" },
+          { required: false, message: "请填写电子邮箱" },
           {
             // 自定义验证函数，见上说明
             validator: (rule, value, callback) => {
@@ -273,13 +273,13 @@ export default {
           },
         ],
         licenseNum: [
-          { required: true, message: "请填写营业执照号" },
-          { pattern: RegExp.licenseNum, message: "请输入正确的营业执照号" },
+          { required: false, message: "请填写营业执照号" },
+          // { pattern: RegExp.licenseNum, message: "请输入正确的营业执照号" },
         ],
-        scope: [{ required: true, message: "请填写营业执照所示经营范围" }],
-        legalPhoto: [{ required: true, message: "请上传法人身份证照片" }],
-        licencePhoto: [{ required: true, message: "请上传营业执照" }],
-        legalName: [{ required: true, message: "请输入法人姓名" }],
+        scope: [{ required: false, message: "请填写营业执照所示经营范围" }],
+        legalPhoto: [{ required: false, message: "请上传法人身份证照片" }],
+        licencePhoto: [{ required: false, message: "请上传营业执照" }],
+        legalName: [{ required: false, message: "请输入法人姓名" }],
         legalId: [
           { required: true, message: "请输入法人证件号" },
           { pattern: RegExp.IDCard, message: "请输入正确的证件号" },

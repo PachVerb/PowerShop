@@ -1,10 +1,10 @@
 <template>
   <view class="wap">
-    <u-navbar  title="预存款列表">
+    <u-navbar  title="余额明细列表">
     </u-navbar>
     <view class="wrapper-show-money">
       <view class="money-view">
-        <h3>预存款金额 </h3>
+        <h3>金额 </h3>
         <view class="money">￥{{walletNum | unitPrice }}</view>
 
       </view>
@@ -61,7 +61,7 @@ export default {
         //   name: "充值明细",
         // },
         {
-          name: "预存款变动明细",
+          name: "余额变动明细",
         },
       ],
     };

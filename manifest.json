@@ -1,6 +1,6 @@
 {
-    "name" : "lilishop",
-    "appid" : "__UNI__ED807EA",
+    "name" : "powSHop",
+    "appid" : "__UNI__947EFB1",
     "description" : "",
     "versionName" : "4.5.3",
     "versionCode" : 4000503,
@@ -230,7 +230,7 @@
                 "enable" : true
             }
         },
-        "title" : "lilishop",
+        "title" : "美物优品购",
         "template" : ""
     }
 }

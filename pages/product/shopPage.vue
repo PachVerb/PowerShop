@@ -91,14 +91,14 @@
         <div class="category" v-if="current == 1">
           <div class="category-item" v-for="(item,index) in categoryList" :key="index">
             <div class="flex" @click="getCategoryGoodsList(item)">
-              <div>{{item.labelName}}</div>
+              <div>{{item.name}}</div>
               <div>
                 <u-icon color="#999" name="arrow-right"></u-icon>
               </div>
             </div>
             <!-- 分类子级 -->
             <div class="child-list" v-if="item.children && item.children.length!=0">
-              <div class="child" @click="getCategoryGoodsList(child)" :key='i' v-for="(child,i) in item.children">{{child.labelName}}
+              <div class="child" @click="getCategoryGoodsList(child)" :key='i' v-for="(child,i) in item.children">{{child.name}}
               </div>
             </div>
           </div>
@@ -189,6 +189,7 @@ import config from "@/config/config";
 import { getGoodsList } from "@/api/goods.js";
 import { getAllCoupons } from "@/api/promotions.js";
 import { getFloorStoreData } from "@/api/home"; //获取楼层装修接口
+import { getCategoryList } from "@/api/goods.js";
 export default {
   data() {
     return {
@@ -250,12 +251,19 @@ export default {
   },
   watch: {
     current(val) {
-      val == 0
-        ? () => {
-            this.goodsList = [];
-            this.getGoodsData();
-          }
-        : this.getCategoryData();
+      // val == 0
+      //   ? () => {
+      //       this.goodsList = [];
+      //       this.getGoodsData();
+      //     }
+      //   : this.getCategoryData();
+	  
+	  val == 0
+	    ? () => {
+	        this.goodsList = [];
+	        this.getGoodsData();
+	      }
+	    : this.getCCategoryData();
     },
   },
 
@@ -372,6 +380,13 @@ export default {
         this.categoryList = res.data.result;
       }
     },
+	/** 获取店铺分类 */
+	async getCCategoryData() {
+	  let res = await getCategoryList(0);
+	  if (res.data.success) {
+	    this.categoryList = res.data.result;
+	  }
+	},
     /**是否收藏店铺 */
     async enableGoodsIsCollect() {
       let res = await getStoreIsCollect("STORE", this.storeId);
@@ -383,7 +398,7 @@ export default {
     /**商品分类中商品集合 */
     getCategoryGoodsList(val) {
       uni.navigateTo({
-        url: `/pages/product/shopPageGoods?title=${val.labelName}&id=${val.id}&storeId=${this.storeId}`,
+        url: `/pages/product/shopPageGoods?title=${val.name}&id=${val.id}&storeId=${this.storeId}`,
       });
     },
 
@@ -419,7 +434,8 @@ export default {
           // 商品信息
           this.getGoodsData();
           // 店铺分类
-          this.getCategoryData();
+          // this.getCategoryData();
+		  this.getCCategoryData()
           
           this.basePageData = true;
         }

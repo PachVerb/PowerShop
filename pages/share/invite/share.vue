@@ -22,7 +22,7 @@
 	export default {
 		data() {
 			return {
-				copyContent: 'ZQEECC',
+				copyContent: '',
 				menus: [
 					{
 						title: '加入团长',

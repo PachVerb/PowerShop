@@ -108,6 +108,11 @@ export function modelNavigateTo(item) {
 						url: `/pages/product/shopList`,
 					});
 					break;
+				case "达人店铺":
+					uni.navigateTo({
+						url: `/pages/product/shop/shop`,
+					});
+					break;
 				default:
 					// #ifdef H5
 					window.location.href = val.url || item.link;

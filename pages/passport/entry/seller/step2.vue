@@ -68,16 +68,16 @@ export default {
       rules: {
         // 验证规则
         settlementBankAccountName: [
-          { required: true, message: "请填写银行开户名称" },
+          { required: false, message: "请填写银行开户名称" },
         ],
         settlementBankAccountNum: [
-          { required: true, message: "请填写银行账号" },
+          { required: false, message: "请填写银行账号" },
         ],
         settlementBankBranchName: [
-          { required: true, message: "请填写开户银行支行名称" },
+          { required: false, message: "请填写开户银行支行名称" },
         ],
         settlementBankJointName: [
-          { required: true, message: "请填写支行联行号" },
+          { required: false, message: "请填写支行联行号" },
         ],
       },
     };

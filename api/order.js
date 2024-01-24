@@ -105,6 +105,15 @@ export function confirmReceipt(orderSn) {
   });
 }
 
+// 立即确认收货
+export function confirmReceiptNow(orderSn) {
+	return http.request({
+	  url: `/order/order/${orderSn}/soonReceiving`,
+	  method: Method.POST,
+	  needToken: true,
+	});
+}
+
 
 
 /**

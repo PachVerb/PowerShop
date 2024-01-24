@@ -92,6 +92,7 @@
                 </view>
                 <view class="goods-btn flex flex-a-c">
                   <!-- 全部 -->
+				  <!-- #ifdef MP-WEIXIN -->
                   <view
                     ripple
                     class="pay-btn"
@@ -101,6 +102,7 @@
                     @click="waitPay(order)"
                     >立即付款</view
                   >
+				  <!-- #endif -->
                   <!-- 取消订单 -->
                   <view
                     ripple
@@ -133,6 +135,16 @@
                   >
                     确认收货
                   </view>
+				  <view
+				    ripple
+				    shape="circle"
+				    class="pay-btn"
+				    size="mini"
+				    v-if="order.allowOperationVO.rog"
+				    @click="corfirmPath(order.sn)"
+				  >
+				    立即确认收货
+				  </view>
                   <view
                     ripple
                     shape="circle"
@@ -214,7 +226,7 @@
 
 <script>
 import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue";
-import { getOrderList, cancelOrder, confirmReceipt } from "@/api/order.js";
+import { getOrderList, cancelOrder, confirmReceipt, confirmReceiptNow } from "@/api/order.js";
 import { getClearReason } from "@/api/after-sale.js";
 import LiLiWXPay from "@/js_sdk/lili-pay/wx-pay.js";
 export default {
@@ -305,6 +317,7 @@ export default {
       reason: "", //取消原因
       cancelList: "", //取消列表
       rogShow: false, //显示是否收货
+	  isNow: false
     };
   },
 
@@ -568,22 +581,44 @@ export default {
       this.orderSn = sn;
       this.rogShow = true;
     },
+	
+	// 立即确认收货
+	corfirmPath(sn) {
+		this.orderSn = sn;
+		this.rogShow = true;
+		this.isNow = true
+	},
 
     /**
      * 点击确认收货
      */
     confirmRog() {
-      confirmReceipt(this.orderSn).then((res) => {
-        if (res.data.code == 200) {
-          uni.showToast({
-            title: "已确认收货",
-            duration: 2000,
-            icon: "none",
-          });
-          this.initData(this.tabCurrentIndex);
-          this.rogShow = false;
-        }
-      });
+	  if(this.isNow) {
+		  confirmReceiptNow(this.orderSn).then((res) => {
+			  console.log('confirmNow=====', res	)
+		    if (res.data.code == 200) {
+		      uni.showToast({
+		        title: "已确认收货",
+		        duration: 2000,
+		        icon: "none",
+		      });
+		      this.initData(this.tabCurrentIndex);
+		      this.rogShow = false;
+		    }
+		  });
+	  } else {
+		  confirmReceipt(this.orderSn).then((res) => {
+		    if (res.data.code == 200) {
+		      uni.showToast({
+		        title: "已确认收货",
+		        duration: 2000,
+		        icon: "none",
+		      });
+		      this.initData(this.tabCurrentIndex);
+		      this.rogShow = false;
+		    }
+		  });
+	  }
     },
 
     /**

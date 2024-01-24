@@ -3,7 +3,7 @@
 		<u-navbar back-text="返回" :title="'加盟'"></u-navbar>
 		<view class="content">
 			<u-form :model="form" ref="uForm">
-				<u-form-item label="邀请码" prop="shareCode">
+				<u-form-item label="邀请码" :label-width="120" prop="shareCode">
 					<u-input placeholder="输入邀请码" v-model="form.shareCode" />
 				</u-form-item>
 			</u-form>
@@ -41,14 +41,20 @@
 				this.$refs.uForm.validate(valid => {
 					if (valid) {
 						setRole(this.form).then(res => {
+							console.log('invite=================', res)
 							if(res.data.code ==200 && res.data.success) {
 								uni.showToast({
 									title: '注册成功',
 									icon:'success',
 									complete() {
-										uni.navigateBack({
-											delta:1
-										});
+										console.log('祖册=====ok')
+										getCurrentPages().length > 1 ?
+											uni.navigateBack({
+												delta: getCurrentPages().length - 2,
+											}) :
+											uni.switchTab({
+												url: "/pages/tabbar/home/index",
+											});
 									}
 								})
 							}

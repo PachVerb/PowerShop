@@ -62,7 +62,7 @@
 			</div>
 
 			<!-- 循环出当前可使用的第三方登录模式 -->
-			<div class="flex login-list">
+			<!-- <div class="flex login-list">
 				<div v-if="item.code" :style="{ background: item.color }" class="login-item"
 					v-for="(item, index) in loginList" :key="index">
 					<u-icon v-if="item.title != 'APPLE'" color="#fff" size="42" :name="item.icon"
@@ -71,7 +71,7 @@
 					<u-image v-else src="/static/appleidButton@2x.png" :lazy-load="false" @click="navigateLogin(item)"
 						width="80" height="80" />
 				</div>
-			</div>
+			</div> -->
 			<myVerification v-if="codeFlag" @send="verification" class="verification" ref="verification"
 				business="LOGIN" />
 		</div>
@@ -191,15 +191,15 @@
 
 
 			//#ifdef H5
-			let isWXBrowser = /micromessenger/i.test(navigator.userAgent);
-			if (isWXBrowser) {
-				webConnect("WECHAT").then((res) => {
-					let data = res.data;
-					if (data.success) {
-						window.location = data.result;
-					}
-				});
-			}
+			// let isWXBrowser = /micromessenger/i.test(navigator.userAgent);
+			// if (isWXBrowser) {
+			// 	webConnect("WECHAT").then((res) => {
+			// 		let data = res.data;
+			// 		if (data.success) {
+			// 			window.location = data.result;
+			// 		}
+			// 	});
+			// }
 			//#endif
 		},
 
@@ -207,11 +207,11 @@
 			
 			// #ifndef APP-PLUS
 			//判断是否微信浏览器
-			var ua = window.navigator.userAgent.toLowerCase();
-			if (ua.match(/MicroMessenger/i) == "micromessenger") {
-				this.wechatLogin = true;
-				return;
-			}
+			// var ua = window.navigator.userAgent.toLowerCase();
+			// if (ua.match(/MicroMessenger/i) == "micromessenger") {
+			// 	this.wechatLogin = true;
+			// 	return;
+			// }
 			// #endif
 			/**
 			 * 条件编译判断当前客户端类型

@@ -36,7 +36,8 @@
 		onLoad(options) {
 			this.routerVal = options;
 			this.params.storeId = options.storeId;
-			this.params.storeCatId = options.id;
+			// this.params.storeCatId = options.id;
+			 this.params.categoryId = options.id;
 			this.title = options.title;
 		},
 		onShow() {

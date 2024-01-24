@@ -33,9 +33,8 @@ export function getShareCode(params) {
 */
 export function setRole(params) {
   return http.request({
-    url: `members/sharecode/setShareCode`,
+    url: `members/sharecode/setShareCode/${params.shareCode}`,
     method: Method.POST,
 	needToken: true,
-	params,
   });
 }

@@ -43,10 +43,10 @@
 			  <view>我的积分</view>
 			</view>
 			
-			<view class="interact-item" @click="distribution">
+			<!-- <view class="interact-item" @click="distribution">
 			  <image src="/static/mine/distribution.png" mode=""></image>
 			  <view>我的分销</view>
-			</view>
+			</view> -->
 			
 			
 			
@@ -97,7 +97,7 @@
             <view>关于</view>
           </view>
           
-          <view class="interact-item" @click="navigateTo('/pages/passport/entry/seller/index')">
+          <view class="interact-item" @click="navigateTo('/pages/passport/entry/seller/index')" v-if="roleinfo && (roleinfo.sellerRoleId == 3 || roleinfo.sellerRoleId == 4)">
             <image src="/static/mine/feedback.png" mode=""></image>
             <view>店铺入驻</view>
           </view>
@@ -109,15 +109,20 @@
           </view>
 		
 		<!-- 邀请好友 -->
-		 <view class="interact-item" @click="navigateTo('/pages/share/invite/share')" v-if="roleinfo && (roleinfo.sellerRoleId == 1 || roleinfo.sellerRoleId == 2 || roleinfo.sellerRoleId == 3)">
-		    <image src="/static/mine/kanjia.png" mode=""></image>
+		 <view class="interact-item" @click="navigateTo('/pages/share/invite/share')" v-if="roleinfo && (roleinfo.sellerRoleId == 1 || roleinfo.sellerRoleId == 2 || roleinfo.sellerRoleId == 3 || roleinfo.sellerRoleId == 4)">
+		    <image src="https://powershop-1323249886.cos.ap-nanjing.myqcloud.com/asset/invete2.png" mode=""></image>
 		    <view>邀请好友</view>
 		  </view>
 		  
 		  <view class="interact-item" @click="navigateTo('/pages/share/join')" v-if="roleinfo && roleinfo.sellerRoleId == -1">
-		     <image src="/static/mine/kanjia.png" mode=""></image>
+		     <image src="https://powershop-1323249886.cos.ap-nanjing.myqcloud.com/asset/hezou.png" mode=""></image>
 		     <view>合作加盟</view>
 		   </view>
+		   
+		   <view class="interact-item" @click="navigateTo('/pages/share/orgs')" v-if="roleinfo && (roleinfo.sellerRoleId == 3 || roleinfo.sellerRoleId == 4)">
+		      <image src="https://powershop-1323249886.cos.ap-nanjing.myqcloud.com/asset/tab_seller.png" mode=""></image>
+		      <view>后台管理</view>
+		    </view>
 		   
 		  <!-- <view class="interact-item" @click="navigateTo('/pages/share/cheer')">
 		      <image src="/static/mine/kanjia.png" mode=""></image>
@@ -139,7 +144,7 @@
 import { distribution } from "@/api/goods";
 import configs from "@/config/config";
 import storage from "@/utils/storage";
-
+import { getUserRole } from "@/api/user/index.js";
 import store from '@/store'
 
 
@@ -147,13 +152,44 @@ export default {
   data() {
 	return {
 	  configs,
-	  storage
+	  storage,
+	  // #ifdef H5
+	   roleinfo: {},
+	  // #endif
+	 
+	  // #ifndef MP-WEIXIN
+	   roleinfo: null,
+	  // #endif
+	   roleinfo: null,
 	  }
   },
-  computed: {
-	roleinfo() {
-		return store.state.roleinfo
-	}  
+  async created(){
+	  // #ifdef H5
+	  console.log('created=====', storage.getRoleInfo())
+	  setTimeout(() => {
+		  this.roleinfo = storage.getRoleInfo() || {}
+		  this.$forceUpdate()
+	  }, 0)
+	  // #endif
+  },
+  async mounted() {
+	  let that = this;
+	  if(this.$options.filters.isLogin("auth")) {
+		  getUserRole().then(res => {
+		  		 	if(res.data && res.data.code == 200 && res.data.success) {
+		  		 		this.roleinfo = res.data.result;
+		  		 	}
+		  		
+		  })
+	  }
+	  
+
+  },
+  props: {
+	  show: {
+		  type:Boolean,
+		  default:false
+	  }
   },
   methods: {
   	handleNavigate(url) {

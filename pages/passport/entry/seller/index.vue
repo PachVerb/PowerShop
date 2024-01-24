@@ -2,7 +2,7 @@
   <div class="wrapper">
        <u-navbar :border-bottom="false"></u-navbar>
     <div>
-      <div class="title">店铺入驻</div>
+      <div class="title">达人入驻</div>
       <div class="step-list">
         <div
           class="step-item"
@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="submit" @click="keepOn()">开始填写</div>
-      <div class="notice" @click="getEntryNotice">查看店铺入驻协议</div>
+      <div class="notice" @click="getEntryNotice">达人入驻协议</div>
     </div>
   </div>
 </template>

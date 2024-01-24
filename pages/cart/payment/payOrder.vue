@@ -25,15 +25,16 @@
               <u-icon class="method_icon" name="zhifubao-circle-fill" color="#008ffa" size="80"></u-icon>
               <span class="method_name">支付宝</span>
             </div> -->
-			<div v-if="item == 'DAI'">
-			  <u-icon class="method_icon" name="zhifubao-circle-fill" color="#008ffa" size="80"></u-icon>
+			<div v-if="item == 'DAI'" class="dai-item">
+			  <!-- <u-icon class="method_icon" name="zhifubao-circle-fill" color="#008ffa" size="80"></u-icon> -->
+			  <image class="dai-img" mode="aspectFit" src="https://powershop-1323249886.cos.ap-nanjing.myqcloud.com/asset/dai.png"></image>
 			  <span class="method_name">好友代付</span>
 			</div>
             <div v-if="item == 'WECHAT'">
               <u-icon class="method_icon" name="weixin-circle-fill" color="#00c98b" size="80"></u-icon>
               <span class="method_name">微信</span>
             </div>
-           <!-- <div v-if="item == 'WALLET'">
+          <!-- <div v-if="item == 'WALLET'">
               <u-icon class="method_icon" name="red-packet-fill" color="#dd6161" size="80"></u-icon>
               <span class="method_name">余额支付(当前余额：¥{{ walletValue | unitPrice }})</span>
             </div> -->
@@ -76,11 +77,13 @@
 				walletValue: 0.0,
 				// 支付倒计时
 				autoCancel: 0,
-				ordersn: ''
+				ordersn: '',
+				tradeSn:''
 			
 			};
 		},
 		onLoad(val) {
+			console.log('query======', val)
 			this.routerVal = val;
 
 			//初始化参数
@@ -99,9 +102,12 @@
 			this.paymentClient = this.isWeiXin() ? "JSAPI" : "H5";
 			//#endif
 
+			// this.ordersn = val.trade_sn
 			this.ordersn = val.ordersn
-
-			// 
+			
+			// #ifdef H5
+			this.tradeSn = val.ordersn
+			// #endif
 		},
 		onBackPress(e) {
 			if (e.from == "backbutton") {
@@ -171,16 +177,34 @@
 						return item != "WALLET";
 					})
 					// #endif
+					
+					// #ifdef H5
+					this.payList = res.data.result.support.filter((item) => {
+						return item != "ALIPAY";
+					});
+					this.payList = res.data.result.support.filter((item) => {
+						return item != "WALLET";
+					})
+					// #endif
 
 					
-				  if(this.routerVal.recharge_sn){
-						// this.payList = res.data.result.support.filter((item) => {
-						// return item != "WALLET";
-					// })
+					// #ifdef H5
+					//判断是否微信浏览器
+					var ua = window.navigator.userAgent.toLowerCase();
+					if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+					
+						this.payList = res.data.result.support.filter((item) => {
+							return item != "ALIPAY";
+						});
+						// 充值的话仅保留微信支付
+						if(this.orderType == "RECHARGE"){
+							this.payList = res.data.result.support.filter((item) => {
+								return item == "WECHAT";
+							});
+						}
+						
 					}
-					 else{
-						// this.payList = res.data.result.support;
-					}
+					// #endif
 					this.payList.push("DAI")
 					
 					
@@ -213,10 +237,24 @@
 
 			//订单支付
 			async pay(payment) {
+				
 				if(payment == 'DAI') {
+					// #ifdef MP-WEIXIN
 					uni.redirectTo({
-						url: `/pages/product/share?sn=${this.cashierParams.orderSns}&orderNo=${this.cashierParams.orderSns}&price=${this.cashierParams.price}isDay=${true}&order=${this.ordersn}`
+						
+						url: `/pages/product/share?sn=${this.cashierParams.orderSns}&orderNo=${this.cashierParams.orderSns}&price=${this.cashierParams.price}&isDay=${true}&order=${this.ordersn}`
+						
+						
 					})
+					// #endif
+					// #ifdef H5
+					uni.redirectTo({
+						
+						url: `/pages/product/share?sn=${this.cashierParams.orderSns}&orderNo=${this.cashierParams.orderSns}&price=${this.cashierParams.price}&isDay=${true}&order=${this.ordersn}&tradeSn=${this.tradeSn}`
+						
+						
+					})
+					// #endif
 					return false
 				}
 				// 支付编号
@@ -338,21 +376,23 @@
 								);
 								 if (this.$store.state.isShowToast){ uni.hideLoading() };
 							} else {
-								window.location.href = JSON.parse(response.result).h5_url;
-								const searchParams = {
-									...params,
-									price:this.cashierParams,
-								}
-								const timer = setInterval(()=>{
-									payCallback(searchParams).then(res=>{
-									if(res.data.result){
-										clearTimeout(timer);
-										uni.navigateTo({
-											url:"/pages/order/myOrder"
-										})
-									}
-								})
-								},3000)
+								debugger
+								// window.location.href = JSON.parse(response.result).h5_url;
+								console.log('paychat=====', response.result)
+								// const searchParams = {
+								// 	...params,
+								// 	price:this.cashierParams,
+								// }
+								// const timer = setInterval(()=>{
+								// 	payCallback(searchParams).then(res=>{
+								// 	if(res.data.result){
+								// 		clearTimeout(timer);
+								// 		uni.navigateTo({
+								// 			url:"/pages/order/myOrder"
+								// 		})
+								// 	}
+								// })
+								// },3000)
 								
 								 if (this.$store.state.isShowToast){ uni.hideLoading() };		
 							}
@@ -537,5 +577,13 @@
 
 .btns {
   margin: 0 20rpx;
+}
+.dai-img {
+	width: 80rpx;
+	height: 80rpx;
+}
+.dai-item {
+	display: flex;
+	align-items: center;
 }
 </style>

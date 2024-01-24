@@ -378,9 +378,10 @@
       </div>
       <div class="navRiv right-btn-wrap">
         <!-- 非微信平台 -->
+		<button type="default" @click="() => inviteCreateTrade()" class="tabbar-right">好友付款</button>
 		<!-- #ifndef MP-WEIXIN -->
 		
-        <div class="tabbar-right">提交订单</div>
+        <div class="tabbar-right" @click="() => createTradeFun()">提交订单</div>
         <!-- #endif -->
         <!-- #ifdef MP-WEIXIN -->
 		<!-- <div class="right-btn-wrap">
@@ -391,7 +392,7 @@
 		<!-- <div class="tabbar-right">好友代付</div
 		
 		<div class="tabbar-right" @click="() => createTradeFun()">立即支付</div> -->
-		<button type="default" @click="() => inviteCreateTrade()" class="tabbar-right">好友付款</button>
+		
 		<button type="default" class="tabbar-right" @click="() => createTradeFun()">立即支付</button>
         <!-- #endif -->
       </div>
@@ -753,23 +754,25 @@ export default {
               });
             } else {
 				// debugger
-			  if(isInVite) {
-				 uni.navigateTo({
-				 	url: `/pages/product/share?sn=${res.data.result.sn}&orderNo=${res.data.result.orderTSn}&price=${this.$options.filters.goodsFormatPrice(
-              this.orderMessage.priceDetailDTO.flowPrice
-            )[0]}`
-				 }) 
-				 return false // 是否邀请
-			  }
+				
+				if(isInVite) {
+					 uni.navigateTo({
+						url: `/pages/product/share?sn=${res.data.result.sn}&orderNo=${res.data.result.orderTSn}&price=${this.$options.filters.goodsFormatPrice(
+				  this.orderMessage.priceDetailDTO.flowPrice
+				)[0]}`
+					 }) 
+					 return false // 是否邀请
+				}
 			 
-              // #ifdef MP-WEIXIN
+            
               // 微信小程序中点击创建订单直接开始支付
+			  // #ifdef MP-WEIXIN
               this.pay(res.data.result.sn);
               // #endif
 
               // #ifndef MP-WEIXIN
               this.navigateTo(
-                `/pages/cart/payment/payOrder?trade_sn=${res.data.result.sn}`
+                `/pages/cart/payment/payOrder?trade_sn=${res.data.result.sn}&ordersn=${res.data.result.sn}`
               );
               // #endif
             }

@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper">
     <u-parse :show-with-animation="true" :lazy-load="true" :selectable="true" :html="res.content" v-if="res"></u-parse>
-
   </div>
 </template>
 <script>
@@ -28,7 +27,7 @@ export default {
           type: "ABOUT",
         },
         STORE_REGISTER: {
-          title: "店铺入驻协议",
+          title: "达人入驻协议",
           type: "STORE_REGISTER",
         },
       },

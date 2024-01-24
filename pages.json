@@ -215,7 +215,7 @@
 			{
 				"path": "deposit/info",
 				"style": {
-					"navigationBarTitleText": "预存款详情"
+					"navigationBarTitleText": "余额详情"
 
 				}
 			},
@@ -476,6 +476,13 @@
 					"style": {
 						// "navigationBarTitleText": "付款详情"
 						"navigationStyle": "custom" // 隐藏系统导航栏
+					}
+				},
+				{ // 达人店铺
+					"path": "shop/shop",
+					"style": {
+						// "navigationBarTitleText": "付款详情"
+						"navigationBarTitleText": "达人店铺"
 					}
 				}
 
@@ -832,13 +839,20 @@
 					"style": {
 						"navigationBarTitleText": "合作加盟"
 					}
+				},
+				{
+					"path": "orgs",
+					"style": {
+						"navigationBarTitleText": "商家端"
+						// "navigationStyle": "custom"
+					}
 				}
 			]
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "Lili商城",
+		"navigationBarTitleText": "美物优品购",
 		"titleColor": "#303133",
 		"navigationBarBackgroundColor": "#fff",
 		"backgroundColor": "#fff",

@@ -4,24 +4,33 @@
 		
 		<!-- 用户信息 -->
 		<view class="user-info-wrap" v-if=" orderDetail.order && orderDetail.order.payStatus=='UNPAID'">
-			<u-avatar class="avater" src="http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg"></u-avatar>
-			<text class="title-tips">代付订单已创建成功, 发给好友帮你付款吧~</text>
+			<u-avatar class="avater" :src="userinfo.face || 'http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg'"></u-avatar>
+			<text class="title-tips"><text v-if="userinfo.username">{{userinfo.username}}</text>, 发起了订单代付请求~</text>
 		</view>
 		
 		
 		<view class="orderCard" v-if=" orderDetail.order && orderDetail.order.payStatus=='UNPAID'">
-			<view class="order-price">
-				代付金额<br/>
-				<text class="dot">￥</text>
-				<text class="price">{{price}}</text>
-				</view>
+			<view class="price-info">
+				<view class="order-price">
+					需付款<br/>
+					<text class="dot">￥</text>
+					<text class="price">{{price}}</text>
+					</view>
+				
+				<!-- #ifdef MP-WEIXIN -->
+				<button class="share-btn" type="primary" open-type="share">发送给微信好友</button>
+				<!-- #endif -->
+				
+				<!-- #ifdef H5 -->
+				<button class="share-btn" type="primary" @click="copyText">发送给微信好友</button>
+				<!-- #endif -->
+				
+				
+			</view>
 			
-
-			<button class="share-btn" type="primary" open-type="share">发送给微信好友</button>
 			
-			<view class="devider"></view>
+			<!-- <view class="devider"></view> -->
 			
-
 			<view class="order-info" v-if="orderGoodsList.length">
 				<view class="order-item" v-for="(item, idx) in orderGoodsList" :key="idx">
 					 <image class="order-image" mode="aspectFit" :src="item.image"></image>
@@ -31,18 +40,27 @@
 						</view>
 						<view class="pro-total">
 							<view>￥{{item.goodsPrice || '0'}}</view>
-							<view>x{{item.subTotal || '0'}}</view>
+							<view>x{{item.num || '0'}}</view>
 						</view>
 					</view>
 				</view>
-				
-				
-				
 			</view>
 			
 			<u-empty v-else text="暂无订单数据" mode="data"></u-empty>
 			
+			<view class="tip-wrap">
+				<view class="tip-title">说明:</view>
+				1.代付订单创建成功后180分钟内未付款，订单会自动取消，你可以重新下
+				单。</br>
+				2.当付款订单退款成功后，实付金额将原路退还付款人。</br>
+			</view>
 		</view>
+		
+		
+		
+		
+		
+		
 		
 		<u-empty text="订单已完成" mode="order" v-if=" orderDetail.order && orderDetail.order.payStatus=='PAID'"></u-empty>
 	</view>
@@ -50,6 +68,7 @@
 
 <script>
 	import { getOrderCDetail } from "@/api/order.js";
+	import storage from "@/utils/storage";
 	export default {
 		data() {
 			return {
@@ -58,17 +77,30 @@
 				orderGoodsList: [],
 				orderDetail: {},
 				order: '',
-				orderNo: ''
+				orderNo: '',
+				copyContent: '',
+				userinfo:  {},
+				tradeSn: ''
 			}
 		},
 		onLoad(query) {
-			console.log('query==========',query)
+			console.log('shear=======',query)	
 			const {orderNo, sn, price} = query
 			query.order ? (this.orderNo = query.order || '') : (this.orderNo = sn || '')
 			this.sn =  sn || ''
 			this.price = price || '00.00'
-			
+			this.orderNo = query.order || orderNo
 			this.loadData(this.orderNo)
+			//#ifdef H5
+				this.copyContent = window.location.origin + `/pages/product/toShare?sn=${this.sn}&price=${this.price}&order=${this.orderNo}&tradeSn=${query.tradeSn}`
+			//#endif
+			
+			
+			this.userinfo = this.$store.state.userInfo
+			//#ifdef H5
+				this.tradeSn = query.tradeSn
+			//#endif
+			
 		},
 		onShareAppMessage() {
 			return {
@@ -96,9 +128,29 @@
 			     if (this.$store.state.isShowToast){ uni.hideLoading() };
 			  });
 			},
+			copyText(e) {
+			    console.log(e)
+				uni.setClipboardData({
+					data: this.copyContent,
+					success: function(res) {
+						uni.getClipboardData({
+							success: function(res) {
+								uni.showToast({
+									title: '已复制链接，快分享给好友吧'
+								});
+							}
+						});
+					}
+				});
+			},
 		},
 		mounted() {
+			// #ifdef MP-WEIXIN
 			this.loadData(this.orderNo)
+			// #endif
+			// #ifdef H5
+			this.loadData(this.tradeSn)
+			// #endif
 		}
 	}
 </script>
@@ -107,7 +159,7 @@
 .page {
 	width: 100%;
 	min-height: 100vh;
-	background-color: #ccc;
+	background-color: #f2f2f2;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -115,20 +167,22 @@
 }
 .title-tips {
 	font-size: 32rpx;
-	color: #fff;
+	color: #000;
 	padding: 24rpx 0 50rpx 0;
 }
 .orderCard {
 	width: 95%;
 	min-height: 300rpx;
-	border-radius: 24rpx;
-	background-color: #fff;
+	/* border-radius: 24rpx; */
+	/* background-color: #f2f2f2; */
 	position: absolute;
 	top: 20%;
-	padding: 24rpx
+	/* padding: 24rpx */
 }
 .orderCard .share-btn {
 	margin-top: 24rpx;
+	background-color: #ffdd37;
+	color: #000
 }
 .orderCard .order-price {
 	font-size: 32rpx;
@@ -147,7 +201,7 @@
 	flex-direction: column;
 	align-items: center;
 	min-height: 400rpx;
-	background-color: red;
+	background-color: #ffdd37;
 	width: 100%;
 }
 .user-info-wrap .avater {
@@ -156,6 +210,11 @@
 .devider {
 	border-top: 0.5px solid #ccc;
 	margin: 24rpx 0;
+}
+.order-info {
+	border-radius: 24rpx;
+	background-color: #fff;
+	padding: 24rpx;
 }
 .order-info .order-item {
 	display: flex;
@@ -189,5 +248,25 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+.pro-list {
+	position: absolute;
+	top: 40%
+}
+.price-info {
+	background-color: #fff;
+	border-radius: 24rpx;
+	margin-bottom: 24rpx;
+	padding: 24rpx;
+}
+.tip-wrap {
+	margin-top: 50rpx;
+	font-size: 14px;
+	line-height: 45rpx;
+}
+.tip-title{
+	font-size: 36rpx;
+	font-weight: bold;
+	margin-bottom: 12rpx;
 }
 </style>

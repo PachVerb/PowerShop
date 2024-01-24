@@ -401,11 +401,23 @@ export default {
     },
     // 去支付
     toPay(val) {
-      val.sn
-        ? uni.navigateTo({
-          url: `/pages/cart/payment/payOrder?order_sn=${val.sn}&ordersn=${this.orderDetail.order.tradeSn}`,
-        })
-        : false;
+		//  #ifdef MP-WEIXIN
+		val.sn
+		  ? uni.navigateTo({
+		    url: `/pages/cart/payment/payOrder?order_sn=${val.sn}&ordersn=${this.orderDetail.order.tradeSn}`,
+		  })
+		  : false;
+		
+		// #endif
+		//  #ifdef H5
+		val.sn
+		  ? uni.navigateTo({
+		    url: `/pages/cart/payment/payOrder?order_sn=${val.sn}&ordersn=${this.orderDetail.order.tradeSn}`,
+		  })
+		  : false;
+		  
+		  // #endif
+     
     }, //删除订单
     deleteOrder(index) {
       uni.showLoading({

@@ -77,6 +77,7 @@ import store from "../../store";
 
 		//微信小程序进入页面，先获取code，否则几率出现code和后续交互数据不对应情况
 		mounted() {
+			console.log(getCurrentPages())
 			// 小程序默认分享
 			uni.showShareMenu({
 				withShareTicket: true
@@ -129,7 +130,6 @@ import store from "../../store";
 					return
 				}
         this.logingFlag = true;
-
         if (this.code) {
           // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
           uni.getUserProfile({
@@ -226,11 +226,15 @@ import store from "../../store";
 			      uni.navigateBack({
 			        delta: 1,
 			      });
+				  // uni.reLaunch({
+				  // 	url:'/pages/tabbar/home/index'
+				  // })
 			    });
 				getUserRole().then(res => {
 					console.log('useRole---------------', res)
 					if(res.data && res.data.code == 200 && res.data.success) {
 						storage.setRoleInfo(res.data.result)
+						
 					}
 				})
 				// 获取角色
