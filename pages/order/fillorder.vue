@@ -756,11 +756,20 @@ export default {
 				// debugger
 				
 				if(isInVite) {
-					 uni.navigateTo({
-						url: `/pages/product/share?sn=${res.data.result.sn}&orderNo=${res.data.result.orderTSn}&price=${this.$options.filters.goodsFormatPrice(
-				  this.orderMessage.priceDetailDTO.flowPrice
-				)[0]}`
-					 }) 
+					// #ifdef MP-WEIXIN
+					uni.navigateTo({
+							url: `/pages/product/share?sn=${res.data.result.sn}&orderNo=${res.data.result.orderTSn}&price=${this.$options.filters.goodsFormatPrice(
+					  this.orderMessage.priceDetailDTO.flowPrice
+					)[0]}`
+						 }) 
+					// #endif
+					// #ifdef H5
+					uni.navigateTo({
+							url: `/pages/product/share?sn=${res.data.result.sn}&orderNo=${res.data.result.sn}&price=${this.$options.filters.goodsFormatPrice(
+					  this.orderMessage.priceDetailDTO.flowPrice
+					)[0]}&tradeSn=${res.data.result.sn}`
+						 }) 
+					// #endif
 					 return false // 是否邀请
 				}
 			 
