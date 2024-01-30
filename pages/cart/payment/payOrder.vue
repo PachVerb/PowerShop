@@ -34,7 +34,7 @@
               <u-icon class="method_icon" name="weixin-circle-fill" color="#00c98b" size="80"></u-icon>
               <span class="method_name">微信</span>
             </div>
-          <!-- <div v-if="item == 'WALLET'">
+        <!-- <div v-if="item == 'WALLET'">
               <u-icon class="method_icon" name="red-packet-fill" color="#dd6161" size="80"></u-icon>
               <span class="method_name">余额支付(当前余额：¥{{ walletValue | unitPrice }})</span>
             </div> -->
@@ -134,12 +134,19 @@
 			 */
 			callback(paymentMethod){
 				uni.navigateTo({
-					url: "/pages/cart/payment/success?paymentMethod=" +
+					url: "/pages/public/payresult/index?paymentMethod=" +
 					paymentMethod +
 					"&payPrice=" +
 					this.cashierParams.price+
 					"&orderType="+this.orderType 
 				});
+				// uni.navigateTo({
+				// 	url: "/pages/cart/payment/success?paymentMethod=" +
+				// 	paymentMethod +
+				// 	"&payPrice=" +
+				// 	this.cashierParams.price+
+				// 	"&orderType="+this.orderType 
+				// });
 			},
 			
 			/**

@@ -23,6 +23,7 @@
                 <view class="-money green" v-if="logItem.serviceType == 'WALLET_PAY' || logItem.serviceType == 'WALLET_WITHDRAWAL'"> {{logItem.money | unitPrice}} </view>
                 <view class="-money" v-if="logItem.serviceType == 'WALLET_REFUND' || logItem.serviceType == 'WALLET_RECHARGE' || logItem.serviceType == 'WALLET_COMMISSION' ">
                   +{{logItem.money | unitPrice}} </view>
+				<view class="-money green" v-if="logItem.serviceType == '分润'"> {{logItem.money | unitPrice}} </view>
                 <view class="-time">{{logItem.createTime}}</view>
               </view>
             </view>

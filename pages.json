@@ -497,6 +497,16 @@
 
 		},
 		{
+			"root": "pages/public",
+			"pages": [{
+				"path": "payresult/index",
+				"style": {
+					"navigationStyle": "custom"
+				}
+			}]
+		
+		},
+		{
 			"root": "pages/passport",
 			"pages": [{
 					"path": "login",

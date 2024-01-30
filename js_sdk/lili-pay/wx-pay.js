@@ -14,7 +14,7 @@ class LiLiWXPay {
     this.data = payList[0];
     console.log(payList);
     // 调用支付
-    this.pay = () => {
+    this.pay = (type) => {
       uni.showLoading({
         title: "加载中",
       });
@@ -53,9 +53,11 @@ class LiLiWXPay {
               content: "支付失败,如果您已支付，请勿反复支付",
               showCancel: false,
               success: () => {
-                uni.redirectTo({
-                  url: "/pages/order/myOrder?status=0",
-                });
+				if(!type) {
+					uni.redirectTo({
+					  url: "/pages/order/myOrder?status=0",
+					});
+				}
               },
             });
           },
@@ -69,48 +71,66 @@ function sendMessage(price) {
   //判断用户是否已经进行了订阅
   if (!uni.getStorageSync("acceptSubscribeMessage")) {
     //订阅消息
-    getWeChatMpMessage().then((res) => {
-      var message = res.data.result;
-      var templateid = message.map((item) => item.code);
-      uni.requestSubscribeMessage({
-        tmplIds: templateid,
-        success: (res) => {
-          for (let key in res) {
-            // 表示用户拒绝订阅该信息
-            if (res[key] == "reject") {
-              this.checked = false;
-            } else {
-              uni.setStorageSync("acceptSubscribeMessage", res);
-            }
-          }
-        },
-        fail: (res) => {
-          uni.removeStorageSync("acceptSubscribeMessage");
-          this.checked = false;
-        },
-        complete: () => {
-          /**
-           * 已经支付成功
-           */
-          uni.redirectTo({
-            url:
-              "/pages/cart/payment/success?paymentMethod=WECHAT" +
-              "&payPrice=" +
-              price,
-          });
-        },
-      });
-    });
+    // getWeChatMpMessage().then((res) => {
+    //   var message = res.data.result;
+    //   var templateid = message.map((item) => item.code);
+    //   uni.requestSubscribeMessage({
+    //     tmplIds: templateid,
+    //     success: (res) => {
+    //       for (let key in res) {
+    //         // 表示用户拒绝订阅该信息
+    //         if (res[key] == "reject") {
+    //           this.checked = false;
+    //         } else {
+    //           uni.setStorageSync("acceptSubscribeMessage", res);
+    //         }
+    //       }
+    //     },
+    //     fail: (res) => {
+    //       uni.removeStorageSync("acceptSubscribeMessage");
+    //       this.checked = false;
+    //     },
+    //     complete: () => {
+    //       /**
+    //        * 已经支付成功
+    //        */
+    //       // uni.redirectTo({
+    //       //   url:
+    //       //     "/pages/cart/payment/success?paymentMethod=WECHAT" +
+    //       //     "&payPrice=" +
+    //       //     price,
+    //       // });
+		  // uni.redirectTo({
+		  // 	url: "/pages/public/payresult/index?paymentMethod=" +
+		  // 	'WECHAT' +
+		  // 	"&payPrice=" +
+		  // 	price
+		  // });
+    //     },
+    //   });
+    // });
+	uni.redirectTo({
+		url: "/pages/public/payresult/index?paymentMethod=" +
+		'WECHAT' +
+		"&payPrice=" +
+		price
+	});
   } else {
     /**
      * 已经支付成功
      */
-    uni.redirectTo({
-      url:
-        "/pages/cart/payment/success?paymentMethod=WECHAT" +
-        "&payPrice=" +
-        price,
-    });
+    // uni.redirectTo({
+    //   url:
+    //     "/pages/cart/payment/success?paymentMethod=WECHAT" +
+    //     "&payPrice=" +
+    //     price,
+    // });
+	uni.redirectTo({
+		url: "/pages/public/payresult/index?paymentMethod=" +
+		'WECHAT' +
+		"&payPrice=" +
+		price
+	});
   }
 }
 

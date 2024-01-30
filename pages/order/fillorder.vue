@@ -758,7 +758,7 @@ export default {
 				if(isInVite) {
 					// #ifdef MP-WEIXIN
 					uni.navigateTo({
-							url: `/pages/product/share?sn=${res.data.result.sn}&orderNo=${res.data.result.orderTSn}&price=${this.$options.filters.goodsFormatPrice(
+							url: `/pages/product/share?sn=${res.data.result.sn}&orderNo=${res.data.result.sn}&price=${this.$options.filters.goodsFormatPrice(
 					  this.orderMessage.priceDetailDTO.flowPrice
 					)[0]}`
 						 }) 

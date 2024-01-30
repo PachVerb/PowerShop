@@ -28,7 +28,7 @@
     </u-cell-group>
 
     <view class="intro">
-      <view>{{config.customerServiceMobile ? `客服热线：${config.customerServiceMobile}` :  ``}}</view>
+      <!-- <view>{{config.customerServiceMobile ? `客服热线：${config.customerServiceMobile}` :  ``}}</view> -->
       <view style="margin:20rpx 0 0 0;">{{config.customerServiceEmail ? `客服邮箱：${config.customerServiceEmail}` :  ``}}</view>
 
       <view>

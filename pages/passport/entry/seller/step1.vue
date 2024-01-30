@@ -131,26 +131,26 @@
         </u-form-item>
       </div>
       <div class="column">
-        <div class="flag-title light-color">法人信息</div>
+        <div class="flag-title light-color">个人信息</div>
         <u-form-item
           required
           :border-bottom="false"
           prop="legalName"
-          label="法人姓名"
+          label="姓名"
           ><u-input :custom-style="defaultInputStyle" v-model="form.legalName"
         /></u-form-item>
         <u-form-item
           required
           :border-bottom="false"
           prop="legalId"
-          label="法人证件号"
+          label="身份证号"
           ><u-input :custom-style="defaultInputStyle" v-model="form.legalId"
         /></u-form-item>
         <u-form-item
           required
           :border-bottom="false"
           prop="legalPhoto"
-          label="法人证件电子版"
+          label="证件照"
         >
           <div>
             <u-upload
@@ -159,7 +159,7 @@
               :action="action"
               width="200"
               @on-uploaded="onUploaded($event, 'legalPhoto')"
-              :max-count="1"
+              :max-count="2"
               :show-progress="false"
             ></u-upload>
           </div>

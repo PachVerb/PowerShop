@@ -5,7 +5,8 @@
 		<!-- 用户信息 -->
 		<view class="user-info-wrap" v-if=" orderDetail.order && orderDetail.order.payStatus=='UNPAID'">
 			<u-avatar class="avater" :src="userinfo.face || 'http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg'"></u-avatar>
-			<text class="title-tips"><text v-if="userinfo.username">{{userinfo.username}}</text>, 发起了订单代付请求~</text>
+			<!-- <text class="title-tips"><text v-if="userinfo.username">{{userinfo.username}}</text>, 发起了订单代付请求~</text> -->
+			<text class="title-tips">发起了订单代付请求~</text>
 		</view>
 		
 		
@@ -56,12 +57,6 @@
 			</view>
 		</view>
 		
-		
-		
-		
-		
-		
-		
 		<u-empty text="订单已完成" mode="order" v-if=" orderDetail.order && orderDetail.order.payStatus=='PAID'"></u-empty>
 	</view>
 </template>
@@ -104,14 +99,22 @@
 		},
 		onShareAppMessage() {
 			return {
-				title: 'admin',
-				path: `/pages/product/toShare?sn=${this.sn}&price=${this.price}&order=${this.orderNo}`,
+				path: `/pages/product/toShare?sn=${this.sn}&price=${this.price}&order=${this.orderNo}&face=${this.userinfo.face}`,
 				// imageUrl:'https://v1.uviewui.com/common/logo.png',
 				// desc: '邀请你付款'
 				complete(){
-					uni.switchTab({
-						url: '/pages/tabbar/home/index'
-					})
+					console.log('分享完成')
+					// uni.switchTab({
+					// 	url: '/pages/tabbar/home/index'
+					// })
+					// wx.exitMiniProgram({
+					// 	success: function() {
+					// 		console.log('退出小程序成功');
+					// 	},
+					// 	fail: function(err) {
+					// 		console.log('退出小程序失败', err);
+					// 	}
+					// })
 				}
 			}
 		},

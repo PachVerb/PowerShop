@@ -2,11 +2,12 @@
   <div class="wrapper">
     <!-- 楼层装修组件 -->
     <tpl ref="tpl" />
+	<!-- <drag-btn></drag-btn> -->
   </div>
 </template>
 <script>
 import tpl from "@/pages/tabbar/home/views.vue";
-
+import dragbtn from '@/components/drag-btn/drag-btn.vue'
 export default {
   data() {
     return {
@@ -35,7 +36,9 @@ export default {
   },
   components: {
     tpl,
+	dragbtn
   },
+  
 };
 </script>
 

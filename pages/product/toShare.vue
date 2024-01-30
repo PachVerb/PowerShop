@@ -3,8 +3,8 @@
 		<u-navbar title="代付详情" :is-back="false"></u-navbar>
 		<!-- 用户信息 -->
 		<view class="user-info-wrap" v-if=" orderDetail.order && orderDetail.order.payStatus=='UNPAID'">
-			<u-avatar v-if="userinfo.face" class="avater" :src="userinfo.face"></u-avatar>
-			<text class="title-tips"><text v-if="userinfo.username">{{userinfo.username}}</text>, 发起了订单代付请求~</text>
+			<u-avatar v-if="userinfo" class="avater" :src="userinfo"></u-avatar>
+			<text class="title-tips">发起了订单代付请求~</text>
 		</view>
 		
 		
@@ -71,12 +71,12 @@
 				order: '',
 				orderNo: '',
 				price: 0,
-				userinfo: {}
+				userinfo: ''
 			}
 		},
 		onLoad(query) {
 			console.log('query==========',query,this.$store.state.userInfo)
-			const {sn, price, order} = query
+			const {sn, price, order, face} = query
 			this.sn = sn
 			this.orderNo=order
 			this.price = price || '00.00'
@@ -88,7 +88,7 @@
 			// #ifdef H5
 			this.loadData(query.tradeSn)
 			// #endif
-			this.userinfo = this.$store.state.userInfo
+			this.userinfo = face
 		},
 		methods: {
 			loadData(sn) {
@@ -107,7 +107,7 @@
 			  new LiLiWXPay({
 				sn: this.orderNo,
 				price: this.price,
-			  }).pay();
+			  }).pay('sharepay');
 			}
 		},
 		mounted() {
